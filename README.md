@@ -121,3 +121,5 @@ npm run validate -- --source="C:/path/history.txt"
 ```
 
 Run `npm run test:e2e` with installed Google Chrome to check imports, filters, tables, preferences, and recovery using the anonymized fixtures. The full-dataset regression is skipped unless `COINPOKER_SOURCE` points to the original private reference export; it is not part of public CI. Core tests, type checking, and production builds do not require a personal hand history.
+
+Browser tests start their own server on port `5175` and do not reuse an existing development server. Set `COINPOKER_TEST_PORT` to choose a different port.
