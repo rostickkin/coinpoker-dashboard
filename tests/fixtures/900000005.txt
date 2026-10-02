@@ -1,0 +1,49 @@
+CoinPoker Hand #900000005: NLH (₮0.50/₮1/₮0.16) 2026/03/04 08:43:16 MSK
+Table '100001' 6-max Seat #1 is the button
+Seat 1: Player17 (₮128.70 in chips)
+Seat 2: Hero (₮118.30 in chips)
+Seat 3: Player18 (₮104.64 in chips)
+Seat 4: Player19 (₮221.04 in chips)
+Seat 5: Player20 (₮145.16 in chips)
+Seat 6: Player21 (₮20.62 in chips)
+Player17: posts ante ₮0.16
+Hero: posts ante ₮0.16
+Player18: posts ante ₮0.16
+Player19: posts ante ₮0.16
+Player20: posts ante ₮0.16
+Player21: posts ante ₮0.16
+Hero: posts small blind ₮0.50
+Player18: posts big blind ₮1
+*** HOLE CARDS ***
+Dealt to Player17
+Dealt to Hero [Kd Qd]
+Dealt to Player18
+Dealt to Player19
+Dealt to Player20
+Dealt to Player21
+Player19: folds
+Player20: folds
+Player21: raises ₮1.50 to ₮2.50
+Player17: folds
+Hero: raises ₮6 to ₮8.50
+Player18: folds
+Player21: ALLIN ₮17.96
+Hero: calls ₮11.96
+*** FLOP *** [As 6s 8c]
+*** TURN *** [As 6s 8c] [6h]
+*** RIVER *** [As 6s 8c 6h] [3h]
+*** SHOWDOWN ***
+Player21: shows [Jh Ah] (Two Pair)
+Player21 collected ₮40.74 from pot
+Hero: shows [Kd Qd] (One Pair)
+*** SUMMARY ***
+Total pot ₮42.88 | Rake ₮2.14
+Hand was run once
+Board [ As 6s 8c 6h 3h ]
+Game ended: 2026/03/04 08:43:57 MSK
+Seat 1: Player17 folded before Flop (didn't bet)
+Seat 2: Hero showed [Kd Qd] and lost with One Pair
+Seat 3: Player18 folded before Flop (didn't bet)
+Seat 4: Player19 folded before Flop (didn't bet)
+Seat 5: Player20 folded before Flop (didn't bet)
+Seat 6: Player21 showed [Jh Ah] and won (₮40.74) with Two Pair

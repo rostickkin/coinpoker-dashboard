@@ -1,0 +1,56 @@
+CoinPoker Hand #900000007: NLH (₮0.50/₮1/₮0.16) 2026/03/20 08:53:14 MSK
+Table '100001' 6-max Seat #2 is the button
+Seat 1: Player27 (₮162.16 in chips)
+Seat 2: Player28 (₮132.42 in chips)
+Seat 3: Player29 (₮170.07 in chips)
+Seat 4: Player30 (₮100 in chips)
+Seat 5: Player31 (₮20.70 in chips)
+Seat 6: Hero (₮113.96 in chips)
+Player27: posts ante ₮0.16
+Player28: posts ante ₮0.16
+Player29: posts ante ₮0.16
+Player30: posts ante ₮0.16
+Player31: posts ante ₮0.16
+Hero: posts ante ₮0.16
+Player29: posts small blind ₮0.50
+Player30: posts big blind ₮1
+*** HOLE CARDS ***
+Dealt to Player27
+Dealt to Player28
+Dealt to Player29
+Dealt to Player30
+Dealt to Player31
+Dealt to Hero [2c 3h]
+Player31: raises ₮2 to ₮3
+Hero: folds
+Player27: calls ₮3
+Player28: folds
+Player29: folds
+Player30: calls ₮2
+*** FLOP *** [8d 2d 5c]
+Player30: checks
+Player31: ALLIN ₮17.54
+Player27: calls ₮17.54
+Player30: calls ₮17.54
+*** TURN *** [8d 2d 5c] [8h]
+Player30: checks
+Player27: checks
+*** RIVER *** [8d 2d 5c 8h] [4d]
+Player30: checks
+Player27: checks
+*** SHOWDOWN ***
+Player31: shows [4s 4c] (Full House)
+Player31 collected ₮59.93 from pot
+Player30: shows [5s 9s] (Two Pair)
+Player27: mucks hand
+*** SUMMARY ***
+Total pot ₮63.08 | Rake ₮3.15
+Hand was run once
+Board [ 8d 2d 5c 8h 4d ]
+Game ended: 2026/03/20 08:54:15 MSK
+Seat 1: Player27 didn't show
+Seat 2: Player28 folded before Flop (didn't bet)
+Seat 3: Player29 folded before Flop (didn't bet)
+Seat 4: Player30 showed [5s 9s] and lost with Two Pair
+Seat 5: Player31 showed [4s 4c] and won (₮59.93) with Full House
+Seat 6: Hero folded before Flop (didn't bet)

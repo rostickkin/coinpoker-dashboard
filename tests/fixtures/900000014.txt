@@ -1,0 +1,67 @@
+CoinPoker Hand #900000014: NLH (₮0.50/₮1/₮0.16) 2026/03/29 07:41:53 MSK
+Table '100001' 6-max Seat #3 is the button
+Seat 1: Hero (₮107.76 in chips)
+Seat 2: Player62 (₮100 in chips)
+Seat 3: Player63 (₮100 in chips)
+Seat 4: Player64 (₮188.82 in chips)
+Seat 5: Player65 (₮115.13 in chips)
+Seat 6: Player66 (₮122.70 in chips)
+Hero: posts ante ₮0.16
+Player62: posts ante ₮0.16
+Player63: posts ante ₮0.16
+Player64: posts ante ₮0.16
+Player65: posts ante ₮0.16
+Player66: posts ante ₮0.16
+Player64: posts small blind ₮0.50
+Player65: posts big blind ₮1
+*** HOLE CARDS ***
+Dealt to Hero [Ac Kc]
+Dealt to Player62
+Dealt to Player63
+Dealt to Player64
+Dealt to Player65
+Dealt to Player66
+Player66: raises ₮1.50 to ₮2.50
+Hero: raises ₮5 to ₮7.50
+Player62: folds
+Player63: raises ₮9.75 to ₮17.25
+Player64: folds
+Player65: folds
+Player66: folds
+Hero: ALLIN ₮100.10
+Player63: ALLIN ₮82.59
+Hero: RETURN ₮7.76
+*** FIRST FLOP *** [Qd 5d 7s]
+*** FIRST TURN *** [Qd 5d 7s] [As]
+*** FIRST RIVER *** [Qd 5d 7s As] [Kh]
+*** SECOND FLOP *** [3h Jc 9s]
+*** SECOND TURN *** [3h Jc 9s] [3d]
+*** SECOND RIVER *** [3h Jc 9s 3d] [Td]
+*** THIRD FLOP *** [4d Ts 2d]
+*** THIRD TURN *** [4d Ts 2d] [3c]
+*** THIRD RIVER *** [4d Ts 2d 3c] [4h]
+*** FIRST SHOWDOWN ***
+Player63: shows [Kd Ks] (Three Of A Kind)
+Player63 collected ₮66.56 from pot
+Hero: shows [Ac Kc] (Two Pair)
+*** SECOND SHOWDOWN ***
+Player63: shows [Kd Ks] (Two Pair)
+Player63 collected ₮66.54 from pot
+Hero: shows [Ac Kc] (One Pair)
+*** THIRD SHOWDOWN ***
+Player63: shows [Kd Ks] (Two Pair)
+Player63 collected ₮66.54 from pot
+Hero: shows [Ac Kc] (One Pair)
+*** SUMMARY ***
+Total pot ₮204.64 | Rake ₮5
+Hand was run three times
+FIRST Board [ Qd 5d 7s As Kh ]
+SECOND Board [ 3h Jc 9s 3d Td ]
+THIRD Board [ 4d Ts 2d 3c 4h ]
+Game ended: 2026/03/29 07:43:14 MSK
+Seat 1: Hero showed [Ac Kc] and lost with Two Pair, and lost with One Pair, and lost with One Pair
+Seat 2: Player62 folded before Flop (didn't bet)
+Seat 3: Player63 showed [Kd Ks] and won (₮66.56) with Three Of A Kind, and won (₮66.54) with Two Pair, and won (₮66.54) with Two Pair
+Seat 4: Player64 folded before Flop (didn't bet)
+Seat 5: Player65 folded before Flop (didn't bet)
+Seat 6: Player66 folded before Flop (didn't bet)

@@ -1,0 +1,58 @@
+CoinPoker Hand #900000003: NLH (₮0.50/₮1/₮0.16) 2026/03/20 07:58:11 MSK
+Table '100001' 6-max Seat #2 is the button
+Seat 1: Player7 (₮113.27 in chips)
+Seat 2: Player8 (₮216.68 in chips)
+Seat 3: Player9 (₮161.28 in chips)
+Seat 4: Player10 (₮244.08 in chips)
+Seat 5: Player11 (₮100 in chips)
+Seat 6: Hero (₮100 in chips)
+Player7: posts ante ₮0.16
+Player8: posts ante ₮0.16
+Player9: posts ante ₮0.16
+Player10: posts ante ₮0.16
+Player11: posts ante ₮0.16
+Hero: posts ante ₮0.16
+Player9: posts small blind ₮0.50
+Player10: posts big blind ₮1
+*** HOLE CARDS ***
+Dealt to Player7
+Dealt to Player8
+Dealt to Player9
+Dealt to Player10
+Dealt to Player11
+Dealt to Hero [Th 7s]
+Player11: folds
+Hero: folds
+Player7: raises ₮1 to ₮2
+Player8: folds
+Player9: raises ₮6 to ₮8
+Player10: calls ₮7
+Player7: calls ₮6
+*** FLOP *** [7d Jc 2d]
+Player9: bets ₮25
+Player10: calls ₮25
+Player7: ALLIN ₮105.11
+Player9: calls ₮80.11
+Player10: ALLIN ₮210.92
+Player9: ALLIN ₮48.01
+Player10: RETURN ₮82.80
+*** TURN *** [7d Jc 2d] [9s]
+*** RIVER *** [7d Jc 2d 9s] [5c]
+*** SHOWDOWN ***
+Player9: shows [Ah Js] (One Pair)
+Player9 collected ₮336.39 from pot
+Player9: shows [Ah Js] (One Pair)
+Player9 collected ₮94.92 from pot
+Player7: shows [Qh Kd] (High Card)
+Player10: shows [Td 6d] (High Card)
+*** SUMMARY ***
+Total pot ₮436.31 | Rake ₮5
+Hand was run once
+Board [ 7d Jc 2d 9s 5c ]
+Game ended: 2026/03/20 07:59:19 MSK
+Seat 1: Player7 showed [Qh Kd] and lost with High Card
+Seat 2: Player8 folded before Flop (didn't bet)
+Seat 3: Player9 showed [Ah Js] and won (₮336.39) with One Pair
+Seat 4: Player10 showed [Td 6d] and lost with High Card
+Seat 5: Player11 folded before Flop (didn't bet)
+Seat 6: Hero folded before Flop (didn't bet)

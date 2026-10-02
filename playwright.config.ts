@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'tests/browser',timeout:240000,workers:1,use:{baseURL:'http://127.0.0.1:5173',headless:true,viewport:{width:1440,height:1000},launchOptions:{channel:'chrome'}},webServer:{command:process.env.COINPOKER_PREVIEW==='1'?'npm run preview -- --port 5173':'npm run dev -- --port 5173',url:'http://127.0.0.1:5173',reuseExistingServer:true},reporter:[['list'],['json',{outputFile:'analysis/phase2b-browser-tests.json'}]]});

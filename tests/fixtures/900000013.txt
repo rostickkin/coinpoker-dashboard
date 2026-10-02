@@ -1,0 +1,61 @@
+CoinPoker Hand #900000013: NLH BombPot (₮0.50/₮1/₮3) 2026/03/04 08:30:47 MSK
+Table '100001' 6-max Seat #5 is the button
+Seat 1: Player57 (₮144.07 in chips)
+Seat 2: Hero (₮101.50 in chips)
+Seat 3: Player58 (₮93.32 in chips)
+Seat 4: Player59 (₮195.69 in chips)
+Seat 5: Player60 (₮104.68 in chips)
+Seat 6: Player61 (₮100 in chips)
+Player57: posts ante ₮3
+Hero: posts ante ₮3
+Player58: posts ante ₮3
+Player59: posts ante ₮3
+Player60: posts ante ₮3
+Player61: posts ante ₮3
+*** HOLE CARDS ***
+Dealt to Player57
+Dealt to Hero [9d 2s]
+Dealt to Player58
+Dealt to Player59
+Dealt to Player60
+Dealt to Player61
+*** FIRST FLOP *** [4s Td 2h]
+*** SECOND FLOP *** [Jh Ts 6s]
+Player61: checks
+Player57: checks
+Hero: checks
+Player58: checks
+Player59: checks
+Player60: checks
+*** FIRST TURN *** [4s Td 2h] [6h]
+*** SECOND TURN *** [Jh Ts 6s] [Kh]
+Player61: bets ₮24
+Player57: calls ₮24
+Hero: folds
+Player58: folds
+Player59: folds
+Player60: folds
+*** FIRST RIVER *** [4s Td 2h 6h] [Kc]
+*** SECOND RIVER *** [Jh Ts 6s Kh] [5s]
+Player61: ALLIN ₮73
+Player57: calls ₮73
+*** FIRST SHOWDOWN ***
+Player61: shows [Th 4h] (Two Pair)
+Player61 collected ₮103.50 from pot
+Player57: shows [Js Jc] (One Pair)
+*** SECOND SHOWDOWN ***
+Player57: shows [Js Jc] (Three Of A Kind)
+Player57 collected ₮103.50 from pot
+Player61: shows [Th 4h] (One Pair)
+*** SUMMARY ***
+Total pot ₮212 | Rake ₮5
+Hand was run with two boards
+FIRST Board [ 4s Td 2h 6h Kc ]
+SECOND Board [ Jh Ts 6s Kh 5s ]
+Game ended: 2026/03/04 08:33:42 MSK
+Seat 1: Player57 showed [Js Jc] and lost with One Pair, and won (₮103.50) with Three Of A Kind
+Seat 2: Hero folded on the Turn
+Seat 3: Player58 folded on the Turn
+Seat 4: Player59 folded on the Turn
+Seat 5: Player60 folded on the Turn
+Seat 6: Player61 showed [Th 4h] and won (₮103.50) with Two Pair, and lost with One Pair

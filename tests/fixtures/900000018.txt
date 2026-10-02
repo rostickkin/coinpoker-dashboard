@@ -1,0 +1,60 @@
+CoinPoker Hand #900000018: NLH (₮0.50/₮1/₮0.16) 2026/03/05 07:46:48 MSK
+Table '100001' 6-max Seat #6 is the button
+Seat 1: Player81 (₮102.86 in chips)
+Seat 2: Player82 (₮188.62 in chips)
+Seat 3: Player83 (₮268.43 in chips)
+Seat 4: Hero (₮100 in chips)
+Seat 5: Player84 (₮102.80 in chips)
+Seat 6: Player85 (₮101.14 in chips)
+Player81: posts ante ₮0.16
+Player82: posts ante ₮0.16
+Player83: posts ante ₮0.16
+Hero: posts ante ₮0.16
+Player84: posts ante ₮0.16
+Player85: posts ante ₮0.16
+Player81: posts small blind ₮0.50
+Player82: posts big blind ₮1
+*** HOLE CARDS ***
+Dealt to Player81
+Dealt to Player82
+Dealt to Player83
+Dealt to Hero [Tc 9d]
+Dealt to Player84
+Dealt to Player85
+Player83: folds
+Hero: folds
+Player84: folds
+Player85: raises ₮1.50 to ₮2.50
+Player81: raises ₮8.50 to ₮11
+Player82: folds
+Player85: calls ₮8.50
+*** FIRST FLOP *** [3d 9s 7d]
+Player81: checks
+Player85: bets ₮6.46
+Player81: raises ₮9.69 to ₮16.15
+Player85: ALLIN ₮83.52
+Player81: calls ₮73.83
+*** FIRST TURN *** [3d 9s 7d] [Th]
+*** FIRST RIVER *** [3d 9s 7d Th] [7c]
+*** SECOND TURN *** [3d 9s 7d] [Jd]
+*** SECOND RIVER *** [3d 9s 7d Jd] [2d]
+*** FIRST SHOWDOWN ***
+Player85: shows [6h 8h] (Straight)
+Player85 collected ₮99.46 from pot
+Player81: shows [As Ad] (Two Pair)
+*** SECOND SHOWDOWN ***
+Player81: shows [As Ad] (Flush)
+Player81 collected ₮99.46 from pot
+Player85: shows [6h 8h] (High Card)
+*** SUMMARY ***
+Total pot ₮203.92 | Rake ₮5
+Hand was run two times
+FIRST Board [ 3d 9s 7d Th 7c ]
+SECOND Board [ 3d 9s 7d Jd 2d ]
+Game ended: 2026/03/05 07:48:36 MSK
+Seat 1: Player81 showed [As Ad] and lost with Two Pair, and won (₮99.46) with Flush
+Seat 2: Player82 folded before Flop (didn't bet)
+Seat 3: Player83 folded before Flop (didn't bet)
+Seat 4: Hero folded before Flop (didn't bet)
+Seat 5: Player84 folded before Flop (didn't bet)
+Seat 6: Player85 showed [6h 8h] and won (₮99.46) with Straight, and lost with High Card

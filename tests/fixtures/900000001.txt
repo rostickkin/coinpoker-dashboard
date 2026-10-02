@@ -1,0 +1,22 @@
+CoinPoker Hand #900000001: NLH (₮0.50/₮1/₮0.16) 2026/03/04 08:40:12 MSK
+Table '100001' 6-max Seat #4 is the button
+Seat 4: Player1 (₮66.05 in chips)
+Seat 5: Hero (₮100 in chips)
+Player1: posts ante ₮0.16
+Hero: posts ante ₮0.16
+Player1: posts small blind ₮0.50
+Hero: posts big blind ₮1
+*** HOLE CARDS ***
+Dealt to Player1
+Dealt to Hero [Qc Tc]
+Player1: folds
+Hero: RETURN ₮0.50
+*** SHOWDOWN ***
+Hero collected ₮1.32 from pot
+*** SUMMARY ***
+Total pot ₮1.32 | Rake ₮0
+Hand was run once
+Board [  ]
+Game ended: 2026/03/04 08:40:18 MSK
+Seat 4: Player1 folded before Flop (didn't bet)
+Seat 5: Hero showed [Qc Tc] and won (₮1.32)

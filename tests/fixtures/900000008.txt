@@ -1,0 +1,65 @@
+CoinPoker Hand #900000008: NLH BombPot (₮0.50/₮1/₮2) 2026/03/04 08:51:32 MSK
+Table '100001' 6-max Seat #5 is the button
+Seat 1: Player32 (₮55.82 in chips)
+Seat 2: Player33 (₮107.13 in chips)
+Seat 3: Hero (₮101 in chips)
+Seat 4: Player34 (₮138.92 in chips)
+Seat 5: Player35 (₮108.47 in chips)
+Seat 6: Player36 (₮28.89 in chips)
+Player32: posts ante ₮2
+Player33: posts ante ₮2
+Hero: posts ante ₮2
+Player34: posts ante ₮2
+Player35: posts ante ₮2
+Player36: posts ante ₮2
+*** HOLE CARDS ***
+Dealt to Player32
+Dealt to Player33
+Dealt to Hero [2d 6c]
+Dealt to Player34
+Dealt to Player35
+Dealt to Player36
+*** FIRST FLOP *** [Tc 5s Jh]
+*** SECOND FLOP *** [Ah As 6d]
+Player36: checks
+Player32: checks
+Player33: checks
+Hero: checks
+Player34: checks
+Player35: checks
+*** FIRST TURN *** [Tc 5s Jh] [7h]
+*** SECOND TURN *** [Ah As 6d] [6s]
+Player36: checks
+Player32: checks
+Player33: checks
+Hero: bets ₮3.96
+Player34: folds
+Player35: calls ₮3.96
+Player36: folds
+Player32: folds
+Player33: folds
+*** FIRST RIVER *** [Tc 5s Jh 7h] [Qd]
+*** SECOND RIVER *** [Ah As 6d 6s] [3h]
+Hero: bets ₮4.98
+Player35: calls ₮4.98
+*** FIRST SHOWDOWN ***
+Player35: shows [Qh 6h] (One Pair)
+Player35 collected ₮14.19 from pot
+Hero: shows [2d 6c] (High Card)
+*** SECOND SHOWDOWN ***
+Hero: shows [2d 6c] (Full House)
+Hero collected ₮7.10 from pot
+Player35: shows [Qh 6h] (Full House)
+Player35 collected ₮7.10 from pot
+*** SUMMARY ***
+Total pot ₮29.88 | Rake ₮1.49
+Hand was run with two boards
+FIRST Board [ Tc 5s Jh 7h Qd ]
+SECOND Board [ Ah As 6d 6s 3h ]
+Game ended: 2026/03/04 08:52:59 MSK
+Seat 1: Player32 folded on the Turn
+Seat 2: Player33 folded on the Turn
+Seat 3: Hero showed [2d 6c] and lost with High Card, and won (₮7.10) with Full House
+Seat 4: Player34 folded on the Turn
+Seat 5: Player35 showed [Qh 6h] and won (₮14.19) with One Pair, and won (₮7.10) with Full House
+Seat 6: Player36 folded on the Turn

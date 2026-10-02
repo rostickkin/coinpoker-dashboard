@@ -1,0 +1,48 @@
+CoinPoker Hand #900000016: NLH (₮1/₮2/₮0.32) 2026/04/01 05:30:15 MSK
+Table '100001' 6-max Seat #3 is the button
+Seat 1: Player72 (₮199.64 in chips)
+Seat 2: Player73 (₮227.49 in chips)
+Seat 3: Hero (₮200 in chips)
+Seat 4: Player74 (₮83.48 in chips)
+Seat 5: Player75 (₮200 in chips)
+SPLASH dropped ₮12
+Player72: posts ante ₮0.32
+Player73: posts ante ₮0.32
+Hero: posts ante ₮0.32
+Player74: posts ante ₮0.32
+Player75: posts ante ₮0.32
+Player74: posts small blind ₮1
+Player75: posts big blind ₮2
+*** HOLE CARDS ***
+Dealt to Player72
+Dealt to Player73
+Dealt to Hero [4h 4c]
+Dealt to Player74
+Dealt to Player75
+Player72: raises ₮3 to ₮5
+Player73: folds
+Hero: raises ₮20 to ₮25
+Player74: calls ₮24
+Player75: folds
+Player72: folds
+*** FLOP *** [Qd Qh Ac]
+Player74: checks
+Hero: bets ₮58.95
+Player74: ALLIN ₮58.16
+Hero: RETURN ₮0.79
+*** TURN *** [Qd Qh Ac] [2s]
+*** RIVER *** [Qd Qh Ac 2s] [9c]
+*** SHOWDOWN ***
+Player74: shows [Qs Td] (Three Of A Kind)
+Player74 collected ₮168.72 from pot
+Hero: shows [4h 4c] (Two Pair)
+*** SUMMARY ***
+Total pot ₮186.92 | Rake ₮6 | Splash Fee ₮0.20
+Hand was run once
+Board [ Qd Qh Ac 2s 9c ]
+Game ended: 2026/04/01 05:31:05 MSK
+Seat 1: Player72 folded before Flop (didn't bet)
+Seat 2: Player73 folded before Flop (didn't bet)
+Seat 3: Hero showed [4h 4c] and lost with Two Pair
+Seat 4: Player74 showed [Qs Td] and won (₮168.72) with Three Of A Kind
+Seat 5: Player75 folded before Flop (didn't bet)

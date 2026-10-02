@@ -1,0 +1,47 @@
+CoinPoker Hand #900000021: NLH (₮1/₮2/₮0.32) 2026/04/29 06:01:10 MSK
+Table '100001' 6-max Seat #4 is the button
+Seat 1: Player96 (₮191.68 in chips)
+Seat 2: Player97 (₮244.83 in chips)
+Seat 3: Player98 (₮245.66 in chips)
+Seat 4: Hero (₮237.19 in chips)
+Seat 5: Player99 (₮224.65 in chips)
+Seat 6: Player100 (₮1.81 in chips)
+Player96: posts ante ₮0.32
+Player97: posts ante ₮0.32
+Player98: posts ante ₮0.32
+Hero: posts ante ₮0.32
+Player99: posts ante ₮0.32
+Player100: posts ante ₮0.32
+Player99: posts small blind ₮1
+Player100: posts big blind ₮1.49 ALLIN
+*** HOLE CARDS ***
+Dealt to Player96
+Dealt to Player97
+Dealt to Player98
+Dealt to Hero [Ks 6s]
+Dealt to Player99
+Dealt to Player100
+Player96: folds
+Player97: folds
+Player98: folds
+Hero: raises ₮3.51 to ₮5
+Player99: folds
+Hero: RETURN ₮3.51
+*** FLOP *** [5d As Ts]
+*** TURN *** [5d As Ts] [Ac]
+*** RIVER *** [5d As Ts Ac] [5h]
+*** SHOWDOWN ***
+Player100: shows [Jd Tc] (Two Pair)
+Player100 collected ₮5.40 from pot
+Hero: shows [Ks 6s] (Two Pair)
+*** SUMMARY ***
+Total pot ₮5.90 | Rake ₮0.30 | Splash Fee ₮0.20
+Hand was run once
+Board [ 5d As Ts Ac 5h ]
+Game ended: 2026/04/29 06:02:07 MSK
+Seat 1: Player96 folded before Flop (didn't bet)
+Seat 2: Player97 folded before Flop (didn't bet)
+Seat 3: Player98 folded before Flop (didn't bet)
+Seat 4: Hero showed [Ks 6s] and lost with Two Pair
+Seat 5: Player99 folded before Flop (didn't bet)
+Seat 6: Player100 showed [Jd Tc] and won (₮5.40) with Two Pair

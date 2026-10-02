@@ -1,0 +1,52 @@
+CoinPoker Hand #900000019: NLH (₮0.50/₮1/₮0.16) 2026/03/06 08:28:06 MSK
+Table '100001' 6-max Seat #3 is the button
+Seat 1: Player86 (₮229.49 in chips)
+Seat 2: Hero (₮119.96 in chips)
+Seat 3: Player87 (₮112.89 in chips)
+Seat 4: Player88 (₮124.70 in chips)
+Seat 5: Player89 (₮159.68 in chips)
+Seat 6: Player90 (₮105.62 in chips)
+Player86: posts ante ₮0.16
+Hero: posts ante ₮0.16
+Player87: posts ante ₮0.16
+Player88: posts ante ₮0.16
+Player89: posts ante ₮0.16
+Player90: posts ante ₮0.16
+Player88: posts small blind ₮0.50
+Player89: posts big blind ₮1
+*** HOLE CARDS ***
+Dealt to Player86
+Dealt to Hero [Ks Kh]
+Dealt to Player87
+Dealt to Player88
+Dealt to Player89
+Dealt to Player90
+Player90: raises ₮2 to ₮3
+Player86: folds
+Hero: raises ₮6 to ₮9
+Player87: folds
+Player88: folds
+Player89: folds
+Player90: raises ₮27 to ₮36
+Hero: ALLIN ₮110.80
+Player90: ALLIN ₮69.46
+Hero: RETURN ₮14.34
+*** FLOP *** [4s Qd 3d]
+*** TURN *** [4s Qd 3d] [5c]
+*** RIVER *** [4s Qd 3d 5c] [Qs]
+*** SHOWDOWN ***
+Hero: shows [Ks Kh] (Two Pair)
+Hero collected ₮208.38 from pot
+Player90: shows [6s 6h] (Two Pair)
+Player90 cashed out the hand for ₮38.10 | Cash Out Fee ₮1.18
+*** SUMMARY ***
+Total pot ₮213.38 | Rake ₮5
+Hand was run once
+Board [ 4s Qd 3d 5c Qs ]
+Game ended: 2026/03/06 08:29:18 MSK
+Seat 1: Player86 folded before Flop (didn't bet)
+Seat 2: Hero showed [Ks Kh] and won (₮208.38) with Two Pair
+Seat 3: Player87 folded before Flop (didn't bet)
+Seat 4: Player88 folded before Flop (didn't bet)
+Seat 5: Player89 folded before Flop (didn't bet)
+Seat 6: Player90 showed [6s 6h] and cashed out for ₮38.10 | Cash Out Fee ₮1.18

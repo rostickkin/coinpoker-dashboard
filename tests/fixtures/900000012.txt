@@ -1,0 +1,43 @@
+CoinPoker Hand #900000012: NLH (₮0.50/₮1) 2026/03/04 08:23:36 MSK
+Table '100001' 6-max Seat #4 is the button
+Seat 1: Player52 (₮100 in chips)
+Seat 2: Hero (₮100 in chips)
+Seat 3: Player53 (₮141.43 in chips)
+Seat 4: Player54 (₮197.19 in chips)
+Seat 5: Player55 (₮98.68 in chips)
+Seat 6: Player56 (₮100 in chips)
+Player55: posts small blind ₮0.50
+Player56: posts big blind ₮1
+Hero: posts auto big blind ₮1
+*** HOLE CARDS ***
+Dealt to Player52
+Dealt to Hero [5c 8h]
+Dealt to Player53
+Dealt to Player54
+Dealt to Player55
+Dealt to Player56
+Player52: folds
+Hero: checks
+Player53: raises ₮3 to ₮4
+Player54: folds
+Player55: folds
+Player56: calls ₮3
+Hero: folds
+*** FLOP *** [7d 2s 7h]
+Player56: checks
+Player53: bets ₮4.75
+Player56: folds
+Player53: RETURN ₮4.75
+*** SHOWDOWN ***
+Player53 collected ₮9.02 from pot
+*** SUMMARY ***
+Total pot ₮9.50 | Rake ₮0.48
+Hand was run once
+Board [ 7d 2s 7h ]
+Game ended: 2026/03/04 08:24:43 MSK
+Seat 1: Player52 folded before Flop (didn't bet)
+Seat 2: Hero folded before Flop (didn't bet)
+Seat 3: Player53 won (₮9.02)
+Seat 4: Player54 folded before Flop (didn't bet)
+Seat 5: Player55 folded before Flop (didn't bet)
+Seat 6: Player56 folded on the Flop

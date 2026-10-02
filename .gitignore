@@ -1,0 +1,19 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+analysis/phase2a-traces.jsonl
+
+.sites-release/
+.sites-artifacts/
+
+# Local hand histories, research exports and hosting metadata
+analysis/
+.openai/
+PHASE_*_REPORT_RU.md
+*.txt
+!tests/fixtures/*.txt
+.env
+.env.*
+!.env.example
+.tools/
