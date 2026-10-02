@@ -1,5 +1,5 @@
 CoinPoker Hand #900000017: NLH (₮0.50/₮1/₮0.16) 2026/04/01 06:47:48 MSK
-Table '100001' 6-max Seat #2 is the button
+Table '100005' 6-max Seat #2 is the button
 Seat 1: Player76 (₮110.72 in chips)
 Seat 2: Player77 (₮164.48 in chips)
 Seat 3: Player78 (₮121.92 in chips)

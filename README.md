@@ -120,4 +120,4 @@ Private hand histories, research exports, and local hosting metadata are exclude
 npm run validate -- --source="C:/path/history.txt"
 ```
 
-The browser suite runs with installed Google Chrome. Its full-dataset regression additionally requires the original local hand history referenced in `tests/browser/dashboard.spec.ts`; it is not part of public CI. Core tests, type checking, and production builds do not require a personal hand history.
+Run `npm run test:e2e` with installed Google Chrome to check imports, filters, tables, preferences, and recovery using the anonymized fixtures. The full-dataset regression is skipped unless `COINPOKER_SOURCE` points to the original private reference export; it is not part of public CI. Core tests, type checking, and production builds do not require a personal hand history.
