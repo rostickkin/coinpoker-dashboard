@@ -12,7 +12,7 @@ Your hand history is processed on your device and never uploaded. No account, ba
 
 - File picker and drag-and-drop import with progress tracking and cancellation.
 - Net Won, bb/100, EV bb/100, hand count, and estimated playing hours.
-- VPIP, PFR, 3Bet, WTSD, W$SD, WWSF, rake attribution, and Splash Fee.
+- VPIP, PFR, 3Bet, WTSD, W$SD, WWSF, rake attribution, and Splash Fee, including Rake bb/100 and Splash Fee bb/100 in all tables.
 - Interactive Net Won, Showdown, Non-Showdown, and All-in EV chart with zoom, pan, and line toggles.
 - Global filters for dates, stakes, position, player count, game type, tables, and Splash category.
 - Days, Months, Limits, and Positions tables with sorting, draggable columns, and row-to-filter navigation.
@@ -69,6 +69,8 @@ The Worker reads the file in chunks, computes its SHA-256 fingerprint, and split
 
 Core monetary values use integer cents (`BigInt`); EV uses rational numbers. Currency-to-BB conversion is performed per hand using that hand's own big blind. Percentages retain their numerator, eligible denominator, and exclusion counts. Unavailable facts remain explicitly unavailable instead of becoming zero.
 
+Rake bb/100 and Splash Fee bb/100 are 100 times the sum of Hero's attributed charge divided by each hand's own BB, divided by the number of hands with available attribution and a positive BB. Known zero charges count; unavailable charges are excluded.
+
 All-in EV exhaustively enumerates legal board completions with exact hand evaluation. It does not use Monte Carlo or assumed opponent ranges. When an adjustment cannot be reconstructed reliably, the primary EV result retains the actual outcome for that part of the hand and records the reason. Consequently, the EV line can include actual-result fallback.
 
 Net Won represents Hero's poker cash flows and excludes separately received Splash rewards. Sessions split at gaps greater than 30 minutes; hours are estimated session spans. Timestamps preserve the calendar values written in the export.
@@ -80,7 +82,7 @@ See [CORE_METHODS.md](CORE_METHODS.md) for detailed calculation policies.
 - Designed for CoinPoker text exports; other rooms' formats are not supported.
 - Exact EV requires sufficient card, contribution, and commission-allocation information. Ambiguous hands may be partially adjusted or use actual fallback.
 - BombPot preflop statistics, positions, and simultaneous-board EV are unsupported.
-- Historical Splash distribution ratios may be unknown; **Splash Received** then displays `—`.
+- **Splash Received** uses an estimated average 50:50 distribution: half of the cash drop goes to the pot, half is shared equally among players marked as dealt in. Explicit table/date ratios can override the estimate; incomplete distribution data displays `—`.
 - Hours estimate session duration rather than precise active time. Hours grouped by stakes can overlap.
 - Large imports and exhaustive equity calculations need time and device memory. A modern desktop browser is recommended.
 
