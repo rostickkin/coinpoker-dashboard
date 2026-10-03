@@ -9,6 +9,13 @@ import {buildSessions} from '../src/metrics/sessions.ts';
 import {available,missing,rational,add} from '../src/core/value.ts';
 async function dataset(){const raw=fs.readFileSync('tests/fixtures/900000004.txt');async function* chunks(){yield raw;}const facts=[];const aggregate=new Aggregate();for await(const h of scanHands(scanLines(chunks()))){const p=processHand(h);aggregate.push(p);facts.push(fact(p));}return {facts,aggregate};}
 const db={filename:'test',limits:[],tables:[],positions:[],players:[],timing:{}} as unknown as Database;
+test('Splash total retains complete and partial amounts with unknown-hand coverage',async()=>{
+ const {facts}=await dataset();const source=facts[0]!;
+ const input=[{...source,hand:{...source.hand,splashType:'regular' as const},splash:rational(720n),splashShared:rational(120n)},{...source,hand:{...source.hand,splashType:'regular' as const},splash:null,splashShared:rational(120n)},{...source,hand:{...source.hand,splashType:'regular' as const},splash:null,splashShared:null}];
+ const r=query(input,[],defaults,db,true);assert.equal(r.summary.splash,8.4);assert.equal(r.summary.splashUnknown,2);assert.equal(r.summary.splashIncluded,2);assert.equal(r.summary.splashEvents,3);
+ for(const tab of ['Days','Months','Limits','Positions'] as const)assert.equal(r.rows[tab][0]!.summary.splash,8.4);
+ assert.equal(query([input[2]!],[],defaults,db,true).summary.splash,null);assert.equal(query([],[],defaults,db,true).summary.splash,0);
+});
 test('fee rates normalize each hand BB and exclude unknown fees and invalid BB',async()=>{
  const {facts}=await dataset();const source=facts[0]!;
  const input=[100n,200n,100n,0n].map((bb,i)=>({...source,hand:{...source.hand,bigBlind:bb},hero:{...source.hero,heroAttributedRake:i===2?missing<bigint>('RAKE_ALLOCATION_UNKNOWN'):available(100n),heroAttributedSplashFee:i===2?missing<bigint>('SUMMARY_FEE_ABSENT'):available(20n)}}));

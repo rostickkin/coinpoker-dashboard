@@ -82,7 +82,7 @@ See [CORE_METHODS.md](CORE_METHODS.md) for detailed calculation policies.
 - Designed for CoinPoker text exports; other rooms' formats are not supported.
 - Exact EV requires sufficient card, contribution, and commission-allocation information. Ambiguous hands may be partially adjusted or use actual fallback.
 - BombPot preflop statistics, positions, and simultaneous-board EV are unsupported.
-- **Splash Received** uses an estimated average 50:50 distribution: half of the cash drop goes to the pot, half is shared equally among players marked as dealt in. Explicit table/date ratios can override the estimate; incomplete distribution data displays `—`.
+- **Splash Received** uses an estimated average 50:50 distribution: half of the cash drop goes to the pot, half is shared equally among players marked as dealt in. Explicit table/date ratios can override the estimate. Known shares are summed even when some hands lack pot-winner data; the card labels the number of incomplete hands. `—` means no share can be calculated; no Splash events gives zero.
 - Hours estimate session duration rather than precise active time. Hours grouped by stakes can overlap.
 - Large imports and exhaustive equity calculations need time and device memory. A modern desktop browser is recommended.
 
