@@ -1,6 +1,6 @@
 # CoinPoker Dashboard
 
-A local-first poker analytics dashboard for CoinPoker hand histories. Import a `.txt` export to explore your results, All-in EV, playing statistics, and breakdowns by day, month, stakes, and position.
+A local-first poker analytics dashboard for CoinPoker hand histories. Import one or more `.txt` exports to explore your results, All-in EV, playing statistics, and breakdowns by day, month, stakes, and position.
 
 **[Open the dashboard](https://rostickkin.github.io/coinpoker-dashboard/)**
 
@@ -10,26 +10,26 @@ Your hand history is processed on your device and never uploaded. No account, ba
 
 ## Features
 
-- File picker and drag-and-drop import with progress tracking and cancellation.
-- Net Won, bb/100, EV bb/100, hand count, and estimated playing hours.
+- Multiple-file picker and drag-and-drop import with shared deduplication, progress tracking, and cancellation. Split exports are combined into one database.
+- Net Won, EV Net Won, bb/100, EV bb/100, hand count, estimated playing hours, and $/hour.
 - VPIP, PFR, 3Bet, WTSD, W$SD, WWSF, rake attribution, and Splash Fee, including Rake bb/100 and Splash Fee bb/100 in all tables.
 - Interactive Net Won, Showdown, Non-Showdown, and All-in EV chart with zoom, pan, and line toggles.
-- Global filters for dates, stakes, position, player count, game type, tables, and Splash category.
+- Global filters for dates, stakes, position, player count, game type, ante in BB, and Splash category. Positions use EP, MP, CO, BU, SB, BB (the heads-up button is BU).
 - Days, Months, Limits, and Positions tables with sorting, draggable columns, and row-to-filter navigation.
 - Currency (`₮`) and big-blind (`BB`) display modes.
 - Data Quality / Coverage panel showing duplicates, conflicts, parsing errors, EV coverage, and unavailable facts.
 
 ## Getting started
 
-1. Open the website and click **Load / Update Database**, or drop a CoinPoker `.txt` export onto the page.
+1. Open the website and click **Load / Update Database**, or drop one or more CoinPoker `.txt` exports onto the page. Select all parts of a split export together.
 2. Wait for parsing to finish. Basic results become available while All-in EV is still being calculated.
 3. Apply filters; use Ctrl/Cmd-click to select multiple stakes or positions.
 4. Explore the chart and tables. Clicking a table row applies the corresponding global filter.
 5. Expand **Data Quality / Coverage** to inspect calculation coverage and exclusion reasons.
 
-The default game filter is **NLH**. Select **Game Type → All** to include BombPot hands. **Clear filters** restores the default NLH selection.
+The default game filter is **NLH**. Select **Game Type → All** to include BombPot hands. **Clear filters** and **Reset filters** (beside **Reset columns** below the chart) restore the default NLH selection.
 
-Hand data lives in the tab's memory: reload the page and select your file again. Only interface preferences are saved in `localStorage`. Cancelling a replacement import preserves the previous completed database.
+Hand data lives in the tab's memory: reload the page and select your files again. Only interface preferences are saved in `localStorage`. Cancelling a replacement import preserves the previous completed database.
 
 ## Architecture
 
@@ -37,7 +37,7 @@ The application uses **React 19**, **TypeScript**, **Apache ECharts**, and **Vit
 
 ```mermaid
 flowchart TD
-    A[Local CoinPoker .txt file] --> B[Streaming file reader]
+    A[Local CoinPoker .txt files] --> B[Streaming file reader]
     B --> C[Worker: scanner and parser]
     C --> D[Action and contribution normalization]
     D --> E[Pot layers, Hero facts and sessions]
@@ -65,7 +65,7 @@ flowchart TD
 
 ## How calculations work
 
-The Worker reads the file in chunks, computes its SHA-256 fingerprint, and splits it into hands. Parsing preserves actions and diagnostics; normalization reconstructs monetary contributions. Duplicate hands are skipped, while conflicting versions of the same hand ID are counted without overwriting the accepted version. Pot layers, Hero facts, and sessions are then built, and hands are ordered by their recorded timestamps.
+The Worker reads each selected file in chunks, computes its SHA-256 fingerprint, and splits it into hands. Deduplication is shared across the entire selection; hands are then combined into one chronological database. Parsing preserves actions and diagnostics; normalization reconstructs monetary contributions. Duplicate hands are skipped, while conflicting versions of the same hand ID are counted without overwriting the accepted version. Pot layers, Hero facts, and sessions are then built, and hands are ordered by their recorded timestamps.
 
 Core monetary values use integer cents (`BigInt`); EV uses rational numbers. Currency-to-BB conversion is performed per hand using that hand's own big blind. Percentages retain their numerator, eligible denominator, and exclusion counts. Unavailable facts remain explicitly unavailable instead of becoming zero.
 
@@ -82,8 +82,8 @@ See [CORE_METHODS.md](CORE_METHODS.md) for detailed calculation policies.
 - Designed for CoinPoker text exports; other rooms' formats are not supported.
 - Exact EV requires sufficient card, contribution, and commission-allocation information. Ambiguous hands may be partially adjusted or use actual fallback.
 - BombPot preflop statistics, positions, and simultaneous-board EV are unsupported.
-- **Splash Received** uses an estimated average 50:50 distribution: half of the cash drop goes to the pot, half is shared equally among players marked as dealt in. Explicit table/date ratios can override the estimate. Known shares are summed even when some hands lack pot-winner data; the card labels the number of incomplete hands. `—` means no share can be calculated; no Splash events gives zero.
-- Hours estimate session duration rather than precise active time. Hours grouped by stakes can overlap.
+- **Splash Received** uses an estimated average 50:50 distribution: half of the cash drop goes to the pot, half is shared equally among players marked as dealt in. Explicit table/date ratios can override the estimate. Known shares are summed even when some hands lack pot-winner data; coverage records the number of incomplete hands. `—` means no share can be calculated; no Splash events gives zero.
+- Hours estimate session duration rather than precise active time. Hours grouped by stakes can overlap. $/hour divides filtered poker Net Won in currency by filtered hours and remains unavailable when hours are zero.
 - Large imports and exhaustive equity calculations need time and device memory. A modern desktop browser is recommended.
 
 ## Local development
@@ -125,3 +125,5 @@ npm run validate -- --source="C:/path/history.txt"
 Run `npm run test:e2e` with installed Google Chrome to check imports, filters, tables, preferences, and recovery using the anonymized fixtures. The full-dataset regression is skipped unless `COINPOKER_SOURCE` points to the original private reference export; it is not part of public CI. Core tests, type checking, and production builds do not require a personal hand history.
 
 Browser tests start their own server on port `5175` and do not reuse an existing development server. Set `COINPOKER_TEST_PORT` to choose a different port.
+
+Set `COINPOKER_STRESS_HANDS=350000` and run `npm run test:e2e -- import-scale.spec.ts` for an optional synthetic volume check with four split files (100k + 100k + 100k + 50k hands). It checks parsing, combined totals, chart reconciliation, and ante selection without expensive equity candidates. Generated histories stay in the ignored `test-results/` directory.

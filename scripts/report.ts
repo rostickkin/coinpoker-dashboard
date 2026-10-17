@@ -81,7 +81,7 @@ Mixed stakes преобразуются по BB каждой руки: Net bb/10
 
 ## 7. Position Engine
 
-Available ${c('position_available')}; unsupported ${c('position_unsupported')} BombPot hands. Dealt seat ring сортируется, обычные blind posts сверяются с BTN. Для HU BTN_SB/BB; для 3–6 игроков labels совпадают с Phase 2A. Tests покрывают все размеры ring, unsorted seats, HU и dead button unavailable. Auto BB не становится вторым positional BB.
+Available ${c('position_available')}; unsupported ${c('position_unsupported')} BombPot hands. Dealt seat ring сортируется, обычные blind posts сверяются с BTN. Для HU используются BU/BB; для 3–6 игроков labels: EP, MP, CO, BU, SB, BB по размеру ring. Tests покрывают все размеры ring, unsorted seats, HU и dead button unavailable. Auto BB не становится вторым positional BB.
 
 ## 8. Sessions
 

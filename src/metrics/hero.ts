@@ -7,7 +7,7 @@ export function position(h:Hand):Value<string> {
  if(h.gameType!=='NLH')return unsupported('POSITION_GAME_UNSUPPORTED');
  const seats=h.players.filter(p=>p.dealtIn).sort((a,b)=>a.seat-b.seat),btn=seats.findIndex(p=>p.seat===h.buttonSeat);
  if(btn<0)return missing('BUTTON_NOT_DEALT');const ring=[...seats.slice(btn),...seats.slice(0,btn)];
- const labels:Record<number,string[]>={2:['BTN_SB','BB'],3:['BTN','SB','BB'],4:['BTN','SB','BB','CO'],5:['BTN','SB','BB','HJ','CO'],6:['BTN','SB','BB','UTG','HJ','CO']};
+ const labels:Record<number,string[]>={2:['BU','BB'],3:['BU','SB','BB'],4:['BU','SB','BB','CO'],5:['BU','SB','BB','MP','CO'],6:['BU','SB','BB','EP','MP','CO']};
  const l=labels[ring.length];if(!l)return missing('UNSUPPORTED_PLAYER_COUNT');
  for(const a of h.actions.filter(a=>a.kind==='sb'||a.kind==='bb')){const expected=a.kind==='sb'?(ring.length===2?0:1):(ring.length===2?1:2);if(ring[expected]?.name!==a.player)return missing('BLIND_RING_CONFLICT');}
  const index=ring.findIndex(p=>p.name==='Hero');return index<0?missing('HERO_NOT_DEALT'):available(l[index]!);
