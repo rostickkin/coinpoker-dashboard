@@ -4,13 +4,13 @@ import {readableChunks} from '../import/browser.ts';
 import {processHand,canonicalContent,Deduplicator,type ProcessedHand} from '../import/core.ts';
 import {calculateEV,type EquityCache} from '../equity/allInEV.ts';
 import {buildSessions,type Session} from '../metrics/sessions.ts';
-import {anteKey,anteLabel,positionOrder,fact,query,type Fact,type Filters,type Database,defaults} from './data.ts';
+import {anteKey,anteLabel,playerOptions,positionOrder,fact,query,type Fact,type Filters,type Database,defaults} from './data.ts';
 
 let facts:Fact[]=[],sessions:Session[]=[],db:Database,ready=false,filters=defaults,request=0;
 const send=(type:string,payload:unknown)=>postMessage({type,payload});
 const hex=(bytes:Uint8Array)=>Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
 function compatible(q:Filters):Filters {
- return db?{...q,limits:q.limits.filter(v=>db.limits.includes(v)),positions:q.positions.filter(v=>db.positions.includes(v)),ante:db.antes.includes(q.ante)?q.ante:'',players:db.players.includes(q.players)?q.players:''}:q;
+ return db?{...q,limits:q.limits.filter(v=>db.limits.includes(v)),positions:q.positions.filter(v=>db.positions.includes(v)),ante:db.antes.includes(q.ante)?q.ante:'',players:playerOptions(db.players).includes(q.players)?q.players:''}:q;
 }
 function reply(){if(db){filters=compatible(filters);send('result',{request,filters,result:query(facts,sessions,filters,db,ready)});}}
 
@@ -55,7 +55,7 @@ onmessage=async(event:MessageEvent<{type:string;files?:File[];filters?:Filters;r
    limits:[...new Set(facts.map(f=>f.hand.bigBlind.toString()))].sort((a,b)=>Number(a)-Number(b)),
    antes:[...new Set(facts.map(f=>anteKey(f.hand)))].sort((a,b)=>parseFloat(anteLabel(a))-parseFloat(anteLabel(b))),
    positions:positionOrder.filter(position=>facts.some(f=>(f.hero.position.value??'Unavailable')===position)),
-   players:[...new Set(facts.map(f=>String(f.players)))].sort(),timing:{parseMs,firstDashboardMs:performance.now()-start}};
+   players:[...new Set(facts.map(f=>String(f.players)))].sort((a,b)=>Number(a)-Number(b)),timing:{parseMs,firstDashboardMs:performance.now()-start}};
   reply();send('basicReady',null);
   const evStart=performance.now();
   for(let i=0;i<queue.length;i++){

@@ -20,8 +20,8 @@ test('local import, filters, units, tables, preferences, diagnostics and recover
  await expect(page.getByTestId('card-splash')).toHaveCount(0);await page.getByRole('button',{name:'BB',exact:true}).click();await expect(page.getByTestId('card-net')).toContainText('bb');await page.getByRole('button',{name:'Non-Showdown',exact:true}).click();await expect(page.getByRole('button',{name:'Non-Showdown',exact:true})).toHaveAttribute('aria-pressed','false');await page.getByRole('button',{name:'Reset zoom'}).click();
  await page.getByLabel('Limit',{exact:true}).selectOption({index:0});await expect(page.getByTestId('card-hands')).not.toHaveText(initial);await page.getByRole('button',{name:'Clear filters'}).click();await page.getByLabel('Position',{exact:true}).selectOption({index:0});await expect(page.getByTestId('card-hands')).not.toHaveText(initial);await page.getByRole('button',{name:'Clear filters'}).click();
  await page.getByLabel('Period',{exact:true}).selectOption('Custom Range');await page.getByLabel('From date').fill('2026-01-01');await page.getByLabel('To date').fill('2026-12-31');await page.getByRole('button',{name:'Clear filters'}).click();
- for(const tab of ['Days','Months','Limits','Positions']){await page.getByRole('button',{name:tab,exact:true}).click();await expect(page.locator('tfoot')).toContainText('TOTAL');await expect(page.getByRole('button',{name:'Sort EV Net Won',exact:true})).toBeAttached();await expect(page.locator('tfoot td').nth(4)).toHaveText(await page.getByTestId('card-evNet').locator('strong').innerText());await expect(page.getByRole('button',{name:'Sort Rake bb/100',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Sort Splash Fee bb/100',exact:true})).toBeAttached();await page.getByRole('button',{name:'Sort Hands'}).click();if(tab==='Days'||tab==='Months'){await page.locator('tbody tr').first().click();await expect(page.getByLabel('Period',{exact:true})).toHaveValue(tab==='Days'?'Day':'Month');await page.getByRole('button',{name:'Clear filters'}).click();}}
- await page.getByRole('button',{name:'Days',exact:true}).click();await page.getByRole('columnheader').nth(1).dragTo(page.getByRole('columnheader').nth(3));await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('coinpoker.ui.v1')!).orders.Days)).not.toEqual(['key','hands','hours','net','evNet','bb100','evBB100','rake','rakeBB100','fee','feeBB100','vpip','pfr','threeBet','wtsd','wsd','wwsf']);
+ for(const tab of ['Days','Months','Limits','Positions']){await page.getByRole('button',{name:tab,exact:true}).click();await expect(page.locator('tfoot')).toContainText('TOTAL');await expect(page.getByRole('button',{name:'Sort EV Net Won',exact:true})).toBeAttached();await expect(page.locator('tfoot td').nth(6)).toHaveText(await page.getByTestId('card-evNet').locator('strong').innerText());await expect(page.getByRole('button',{name:'Sort Rake bb/100',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Sort Splash Fee bb/100',exact:true})).toBeAttached();await page.getByRole('button',{name:'Sort Hands',exact:true}).click();if(tab==='Days'||tab==='Months'){await page.locator('tbody tr').first().click();await expect(page.getByLabel('Period',{exact:true})).toHaveValue(tab==='Days'?'Day':'Month');await page.getByRole('button',{name:'Clear filters'}).click();}}
+ await page.getByRole('button',{name:'Days',exact:true}).click();await page.getByRole('columnheader').nth(1).dragTo(page.getByRole('columnheader').nth(3));await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('coinpoker.ui.v1')!).orders.Days)).not.toEqual(['key','hands','hours','handsPerHour','hourly','net','evNet','bb100','evBB100','rake','rakeBB100','fee','feeBB100','vpip','pfr','threeBet','wtsd','wsd','wwsf']);
  await page.getByText('Data Quality / Coverage', {exact:false}).click();await expect(page.getByText('BOMBPOT_EV_UNSUPPORTED',{exact:true})).toHaveCount(0);await page.getByLabel('Game Type').selectOption('');await expect(page.getByText('BOMBPOT_EV_UNSUPPORTED',{exact:true})).toBeVisible();
  const settings=await page.evaluate(()=>localStorage.getItem('coinpoker.ui.v1'));await page.reload();await expect(page.getByRole('button',{name:'BB',exact:true})).toHaveAttribute('aria-pressed','true');expect(await page.evaluate(()=>localStorage.getItem('coinpoker.ui.v1'))).toBe(settings);
  await page.getByLabel('Select CoinPoker file').setInputFiles({name:'duplicate.txt',mimeType:'text/plain',buffer:Buffer.concat([fixture,Buffer.from('\n'),fixture])});await expect(page.getByTestId('card-hands')).toBeVisible();await expect(page.getByRole('button',{name:'Cancel import'})).toHaveCount(0);await page.getByText('Data Quality / Coverage',{exact:false}).click();await expect(page.getByText(/Duplicates: [1-9]/)).toBeVisible();
@@ -63,7 +63,7 @@ test('card rows, renamed positions and saved filter migration',async({page})=>{
  await page.getByLabel('Select CoinPoker file').setInputFiles({name:'positions.txt',mimeType:'text/plain',buffer:fixture});await expect(page.getByTestId('card-hands')).toBeVisible();await expect(page.getByRole('button',{name:'Cancel import'})).toHaveCount(0,{timeout:90000});
  await expect(page.getByLabel('Position')).toHaveValues(['BU']);expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('coinpoker.ui.v1')!).filters.tables)).toBeUndefined();
  await page.getByRole('button',{name:'Reset filters',exact:true}).click();
- expect(await page.locator('.results-cards .stat').evaluateAll(cards=>cards.map(card=>card.firstElementChild!.firstChild!.textContent!.trim()))).toEqual(['Net Won','EV Net Won','bb/100','EV bb/100','Hands','Hours Played','$/hour']);
+ expect(await page.locator('.results-cards .stat').evaluateAll(cards=>cards.map(card=>card.firstElementChild!.firstChild!.textContent!.trim()))).toEqual(['Net Won','EV Net Won','bb/100','EV bb/100','Hands','Hours Played','Hands per hour','$/hour']);
  expect(await page.locator('.poker-cards .stat').evaluateAll(cards=>cards.map(card=>card.firstElementChild!.firstChild!.textContent!.trim()))).toEqual(['VPIP','PFR','3Bet','WTSD','W$SD','WWSF','Rake','Splash Fee']);
  await expect(page.getByTestId('card-splash')).toHaveCount(0);await expect(page.getByLabel('Table',{exact:true})).toHaveCount(0);
  const expected=await page.evaluate(()=>{const r=window.latestResult;return {ev:'₮'+r.summary.evNet!.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}),hourly:'₮'+r.summary.hourly!.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})};});
@@ -72,4 +72,57 @@ test('card rows, renamed positions and saved filter migration',async({page})=>{
  await page.screenshot({path:'analysis/dashboard-updated-desktop.png',fullPage:true});
  await page.setViewportSize({width:390,height:844});await page.screenshot({path:'analysis/dashboard-updated-mobile.png',fullPage:true});
  expect(await page.locator('.results-cards .stat').evaluateAll(cards=>cards.every(card=>card.scrollWidth<=card.clientWidth))).toBe(true);
+});
+
+const tableHistory=(id:number,players:number,ante:number)=>{
+ const names=Array.from({length:players},(_,i)=>i===1?'Hero':`Player${i+1}`),pot=(2+players*ante).toFixed(2);
+ return [`CoinPoker Hand #${id}: NLH (₮1/₮2/₮${ante}) 2026/10/02 09:00:00 MSK`,
+  `Table 'synthetic-${players}' ${players}-max Seat #${players===2?1:players} is the button`,
+  ...names.map((name,i)=>`Seat ${i+1}: ${name} (₮100 in chips)`),
+  ...names.map(name=>`${name}: posts ante ₮${ante}`),
+  'Player1: posts small blind ₮1','Hero: posts big blind ₮2','*** HOLE CARDS ***',
+  ...names.map(name=>`Dealt to ${name}${name==='Hero'?' [Ah Ad]':''}`),
+  ...names.slice(2).map(name=>`${name}: folds`),'Player1: folds','Hero: RETURN ₮1',
+  `Hero collected ₮${pot} from pot`,'*** SUMMARY ***',`Total pot ₮${pot} | Rake ₮0 | Splash Fee ₮0`,
+  'Hand was run once','Board [  ]','Game ended: 2026/10/02 09:01:00 MSK'].join('\n');
+};
+
+test('hourly cards and table totals, ante-specific limit rows and empty player selections',async({page})=>{
+ await page.goto('/');
+ await page.getByLabel('Select CoinPoker file').setInputFiles({name:'antes.txt',mimeType:'text/plain',buffer:Buffer.from([tableHistory(920000001,6,.5),tableHistory(920000002,6,.32)].join('\n'))});
+ await expect(page.getByTestId('card-hands').locator('strong')).toHaveText('2');await expect(page.getByRole('button',{name:'Cancel import'})).toHaveCount(0);
+ await expect(page.getByTestId('card-handsPerHour').locator('strong')).toHaveText('120.00');
+ expect(await page.getByLabel('Players',{exact:true}).locator('option').allTextContents()).toEqual(['All','HU','3-max','4-max','5-max','6-max']);
+ expect(await page.locator('.table-scroll tbody tr td:first-child').allTextContents()).toEqual(['NL200 (0.32)','NL200 (0.5)']);
+ for(const tab of ['Days','Months','Limits','Positions']){
+  await page.getByRole('button',{name:tab,exact:true}).click();
+  expect((await page.getByRole('columnheader').allTextContents()).slice(2,5)).toEqual(['Hours ↕','Hands/hour ↕','$/hour ↕']);
+  await expect(page.locator('tfoot td').nth(3)).toHaveText(await page.getByTestId('card-handsPerHour').locator('strong').innerText());
+  await expect(page.locator('tfoot td').nth(4)).toHaveText(await page.getByTestId('card-hourly').locator('strong').innerText());
+  await page.getByRole('button',{name:'Sort Hands/hour',exact:true}).click();
+  await page.getByRole('button',{name:'Sort $/hour',exact:true}).click();
+ }
+ await page.getByRole('button',{name:'Limits',exact:true}).click();await page.getByRole('button',{name:'Sort Period / group',exact:true}).click();
+ expect(await page.locator('.table-scroll tbody tr td:first-child').allTextContents()).toEqual(['NL200 (0.32)','NL200 (0.5)']);
+ await page.getByRole('button',{name:'Sort Period / group',exact:true}).click();expect(await page.locator('.table-scroll tbody tr td:first-child').allTextContents()).toEqual(['NL200 (0.5)','NL200 (0.32)']);
+ await page.getByText('NL200 (0.32)',{exact:true}).click();await expect(page.getByLabel('Limit',{exact:true})).toHaveValues(['200']);await expect(page.getByLabel('Ante',{exact:true})).toHaveValue('4/25');await expect(page.getByTestId('card-hands').locator('strong')).toHaveText('1');await expect(page.getByTestId('card-handsPerHour').locator('strong')).toHaveText('60.00');
+ const hourly=await page.getByTestId('card-hourly').locator('strong').innerText();await page.getByRole('button',{name:'BB',exact:true}).click();await expect(page.locator('tfoot td').nth(4)).toHaveText(hourly);
+ await page.getByRole('button',{name:'Reset filters',exact:true}).click();await page.getByLabel('Players',{exact:true}).selectOption('2');
+ await expect(page.getByLabel('Players',{exact:true})).toHaveValue('2');await expect(page.getByTestId('card-hands').locator('strong')).toHaveText('0');await expect(page.getByTestId('card-handsPerHour').locator('strong')).toHaveText('—');await expect(page.getByTestId('card-hourly').locator('strong')).toHaveText('—');
+});
+
+test('larger player options follow database contents and hourly columns migrate saved order',async({page})=>{
+ await page.goto('/');
+ await page.evaluate(()=>localStorage.setItem('coinpoker.ui.v1',JSON.stringify({unit:'₮',lines:[true,true,true,true],tab:'Limits',filters:{period:'All Time',from:'',to:'',month:'',limits:[],positions:[],players:'',game:'NLH',splash:''},orders:{Limits:['hands','key','hours','net','evNet','bb100','evBB100','rake','rakeBB100','fee','feeBB100','vpip','pfr','threeBet','wtsd','wsd','wwsf']}})));await page.reload();
+ const upload=async(counts:number[])=>{
+  const previous=await page.evaluate(()=>window.latestResult?.database.importedAt);
+  await page.getByLabel('Select CoinPoker file').setInputFiles({name:'players.txt',mimeType:'text/plain',buffer:Buffer.from(counts.map(p=>tableHistory(930000000+p,p,.32)).join('\n'))});
+  await expect.poll(()=>page.evaluate(()=>window.latestResult?.database.importedAt)).not.toBe(previous);await expect(page.getByRole('button',{name:'Cancel import'})).toHaveCount(0);
+ };
+ await upload([10,7,9,8]);
+ expect(await page.getByLabel('Players',{exact:true}).locator('option').allTextContents()).toEqual(['All','HU','3-max','4-max','5-max','6-max','7-max','8-max','9-max','10-max']);
+ expect((await page.getByRole('columnheader').allTextContents()).slice(0,6)).toEqual(['Hands ↕','Period / group ↕','Hours ↕','Hands/hour ↕','$/hour ↕','Net Won ↕']);
+ for(const count of ['7','8','9','10']){await page.getByLabel('Players',{exact:true}).selectOption(count);await expect(page.getByTestId('card-hands').locator('strong')).toHaveText('1');await expect.poll(()=>page.evaluate(()=>window.latestResult.summary.net.toString())).toBe(String(100+(Number(count)-1)*32));await expect.poll(()=>page.evaluate(()=>window.latestResult.points.length)).toBe(1);}
+ await upload([8]);await expect(page.getByLabel('Players',{exact:true})).toHaveValue('');expect(await page.getByLabel('Players',{exact:true}).locator('option').allTextContents()).toEqual(['All','HU','3-max','4-max','5-max','6-max','8-max']);
+ await page.getByRole('button',{name:'Reset columns',exact:true}).click();expect((await page.getByRole('columnheader').allTextContents()).slice(0,5)).toEqual(['Period / group ↕','Hands ↕','Hours ↕','Hands/hour ↕','$/hour ↕']);
 });

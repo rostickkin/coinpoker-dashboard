@@ -11,11 +11,11 @@ Your hand history is processed on your device and never uploaded. No account, ba
 ## Features
 
 - Multiple-file picker and drag-and-drop import with shared deduplication, progress tracking, and cancellation. Split exports are combined into one database.
-- Net Won, EV Net Won, bb/100, EV bb/100, hand count, estimated playing hours, and $/hour.
+- Net Won, EV Net Won, bb/100, EV bb/100, hand count, estimated playing hours, Hands/hour, and $/hour in cards and tables.
 - VPIP, PFR, 3Bet, WTSD, W$SD, WWSF, rake attribution, and Splash Fee, including Rake bb/100 and Splash Fee bb/100 in all tables.
 - Interactive Net Won, Showdown, Non-Showdown, and All-in EV chart with zoom, pan, and line toggles.
-- Global filters for dates, stakes, position, player count, game type, ante in BB, and Splash category. Positions use EP, MP, CO, BU, SB, BB (the heads-up button is BU).
-- Days, Months, Limits, and Positions tables with sorting, draggable columns, and row-to-filter navigation.
+- Global filters for dates, stakes, position, player count, game type, ante in BB, and Splash category. Players offers HU through 6-max, plus 7-max through 10-max when present in the database. Positions use EP, MP, CO, BU, SB, BB (the heads-up button is BU).
+- Days, Months, Limits, and Positions tables with sorting, draggable columns, and row-to-filter navigation. Limits groups stakes by ante amount, such as NL200 (0.32); clicking a row selects both stakes and ante.
 - Currency (`₮`) and big-blind (`BB`) display modes.
 - Data Quality / Coverage panel showing duplicates, conflicts, parsing errors, EV coverage, and unavailable facts.
 
@@ -83,7 +83,7 @@ See [CORE_METHODS.md](CORE_METHODS.md) for detailed calculation policies.
 - Exact EV requires sufficient card, contribution, and commission-allocation information. Ambiguous hands may be partially adjusted or use actual fallback.
 - BombPot preflop statistics, positions, and simultaneous-board EV are unsupported.
 - **Splash Received** uses an estimated average 50:50 distribution: half of the cash drop goes to the pot, half is shared equally among players marked as dealt in. Explicit table/date ratios can override the estimate. Known shares are summed even when some hands lack pot-winner data; coverage records the number of incomplete hands. `—` means no share can be calculated; no Splash events gives zero.
-- Hours estimate session duration rather than precise active time. Hours grouped by stakes can overlap. $/hour divides filtered poker Net Won in currency by filtered hours and remains unavailable when hours are zero.
+- Hours estimate session duration rather than precise active time. Hours grouped by stakes and ante can overlap. Hands/hour divides filtered hand count by filtered hours; $/hour divides filtered poker Net Won in currency by filtered hours. Both rates remain unavailable when hours are zero.
 - Large imports and exhaustive equity calculations need time and device memory. A modern desktop browser is recommended.
 
 ## Local development
