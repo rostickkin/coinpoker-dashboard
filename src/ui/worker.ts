@@ -62,6 +62,6 @@ onmessage=async(event:MessageEvent<{type:string;files?:File[];filters?:Filters;r
    const {p,f}=queue[i]!;f.ev=calculateEV(p.hand,p.ledger,p.pots,p.hero,cache);queue[i]=undefined as unknown as typeof queue[number];
    send('progress',{stage:'Calculating All-in EV',parsed:facts.length,percent:100*(i+1)/queue.length});await new Promise(r=>setTimeout(r,0));
   }
-  db.timing.evMs=performance.now()-evStart;db.timing.totalMs=performance.now()-start;ready=true;reply();send('complete',null);
+  db.timing.evMs=performance.now()-evStart;db.timing.totalMs=performance.now()-start;ready=true;reply();send('complete',{hands:db.unique,files:db.files.length,bytes:totalBytes});
  }catch(e){send('error',e instanceof Error?e.message:'Worker import failed.');}
 };

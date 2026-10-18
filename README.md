@@ -4,7 +4,7 @@ A local-first poker analytics dashboard for CoinPoker hand histories. Import one
 
 **[Open the dashboard](https://rostickkin.github.io/coinpoker-dashboard/)**
 
-Your hand history is processed on your device and never uploaded. No account, backend, or server database is required.
+Your hand history is processed on your device and never uploaded. Poker analysis requires no account, backend, or server database. Optional project statistics use a separate collector for visit/import counts only, with a usage-sharing switch.
 
 ![CoinPoker Dashboard with statistics, results chart, daily breakdown and data coverage](docs/images/demo.png)
 
@@ -18,6 +18,7 @@ Your hand history is processed on your device and never uploaded. No account, ba
 - Days, Months, Limits, and Positions tables with sorting, draggable columns, and row-to-filter navigation. Limits groups stakes by ante amount, such as NL200 (0.32); clicking a row selects both stakes and ante.
 - Currency (`₮`) and big-blind (`BB`) display modes.
 - Data Quality / Coverage panel showing duplicates, conflicts, parsing errors, EV coverage, and unavailable facts.
+- Project Statistics cards for visits, estimated unique browsers, completed imports, hands processed, imported files and processed bytes. Counters require the optional collector; unavailable data is shown as `—`.
 
 ## Getting started
 
@@ -62,6 +63,12 @@ flowchart TD
 | `src/core/` | Integer money and rational arithmetic |
 | `tests/` | Calculation, scenario, aggregation, and browser tests |
 | `scripts/` | Optional local validation and research reports |
+
+## Optional project statistics
+
+The site can send a random browser ID and minimal visit/import summaries to a Cloudflare Worker backed by D1. It never sends history contents, filenames, source hashes, poker identifiers or financial results. **Share usage statistics** can be switched off in the Project Statistics section. The UI version and build date come from the deployed build.
+
+The collector is independent of poker analysis; timeouts, offline operation and exhausted analytics quotas do not block imports. The original repository's Pages workflow supplies its public collector URL; forks default to no collector. To configure your own collector on the Free plan, see [workers/statistics/README.md](workers/statistics/README.md). Leave `VITE_STATS_API_URL` empty locally for local-only analysis and an unavailable statistics section.
 
 ## How calculations work
 

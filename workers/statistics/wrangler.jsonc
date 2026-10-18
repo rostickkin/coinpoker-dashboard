@@ -1,0 +1,28 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "coinpoker-statistics",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "send_metrics": false,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://rostickkin.github.io"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "coinpoker-statistics",
+      "database_id": "c41b459c-ee8a-4dec-8c53-e7312871cd0a",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "RATE_LIMITER",
+      "namespace_id": "8347021",
+      "simple": { "limit": 120, "period": 60 }
+    }
+  ],
+  "triggers": { "crons": ["0 1 * * *"] },
+  "observability": { "enabled": false }
+}

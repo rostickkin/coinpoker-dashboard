@@ -17,3 +17,6 @@ PHASE_*_REPORT_RU.md
 .env.*
 !.env.example
 .tools/
+.wrangler/
+.dev.vars
+.dev.vars.*

@@ -29,6 +29,7 @@ jobs:
       - run: npm run build
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
+          VITE_STATS_API_URL: ${{ vars.VITE_STATS_API_URL || (github.repository == 'rostickkin/coinpoker-dashboard' && 'https://coinpoker-statistics.coinpoker-dashboard.workers.dev') || '' }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
