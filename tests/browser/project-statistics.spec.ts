@@ -16,15 +16,15 @@ async function collector(page:Page,available=true){
 
 test('unconfigured deployments show honest unavailable values and no usage-sharing control',async({page})=>{
  test.skip(configured,'This case verifies a build without an API URL.');
- await page.goto('/');const section=page.getByRole('region',{name:'Project Statistics'});
+ await page.goto('/');const section=page.getByRole('region',{name:'CoinPoker Dashboard Statistics'});
  await expect(section).toBeVisible();await expect(section.locator('.project-stat strong')).toHaveText(['—','—','—','—','—','—']);
  await expect(section.getByText('Statistics are not available yet.')).toBeVisible();await expect(page.getByLabel('Share usage statistics')).toHaveCount(0);
 });
 
-test('Cards show real aggregates, count one session across reloads, and persist opt-out',async({page})=>{
+test('Statistics show real aggregates, count one session across reloads, and persist opt-out',async({page})=>{
  test.skip(!configured,'Set COINPOKER_STATS_API_URL to the local mocked collector.');
  const events=await collector(page);const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
- await page.goto('/');const section=page.getByRole('region',{name:'Project Statistics'});
+ await page.goto('/');const section=page.getByRole('region',{name:'CoinPoker Dashboard Statistics'});
  await expect(section.getByText('12,846',{exact:true})).toBeVisible();await expect(section.getByText('8.42M',{exact:true})).toBeVisible();await expect(section.getByText('12.6 GB',{exact:true})).toBeVisible();
  await expect.poll(()=>events.filter(event=>event.type==='visit').length).toBe(1);
  await page.reload();await expect(section.getByText('12,846',{exact:true})).toBeVisible();expect(events.filter(event=>event.type==='visit')).toHaveLength(1);

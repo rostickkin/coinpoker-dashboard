@@ -37,9 +37,8 @@ export function ProjectStatistics(){
  const {totals,status,sharing}=snapshot;
  const notice=status==='unconfigured'?'Statistics are not available yet.':status==='loading'?'Loading project statistics…':status==='unavailable'?(totals?'Showing the last available totals.':'Statistics are temporarily unavailable.'):totals?'Since '+displayDate(totals.startedAt):'';
  return <section className="project-statistics" aria-labelledby="project-statistics-title">
-  <div className="project-statistics-head"><div><h2 id="project-statistics-title">Project Statistics</h2><p>All-time project activity</p></div><span className="project-statistics-status" role="status">{notice}</span></div>
+  <h2 id="project-statistics-title" title="All-time project activity">CoinPoker Dashboard Statistics</h2>
   <div className="project-stat-grid">{metrics.map(metric=><article className="project-stat" key={metric.key} title={metric.description}><div>{metric.label}</div><strong>{totals?format(totals[metric.key],metric.key):'—'}</strong></article>)}</div>
-  <div className="project-statistics-meta"><span>CoinPoker Dashboard · v{__APP_VERSION__}</span><span>Updated {displayDate(__BUILD_DATE__)}</span>{status!=='unconfigured'&&<label className="project-sharing" title="Shares a random browser ID and visit/import counts. Hand histories, filenames and poker results stay on your device."><input type="checkbox" checked={sharing} onChange={event=>statistics.setSharing(event.target.checked)}/>Share usage statistics</label>}</div>
-  {status!=='unconfigured'&&<p className="project-statistics-privacy">Usage sharing sends counts only. Your hand history stays on your device.</p>}
+  <div className="project-statistics-meta"><span className="project-statistics-status" role="status">{notice}</span><span title={'Updated '+displayDate(__BUILD_DATE__)}>v{__APP_VERSION__}</span>{status!=='unconfigured'&&<label className="project-sharing" title="Shares a random browser ID and visit/import counts. Hand histories, filenames and poker results stay on your device."><input type="checkbox" checked={sharing} onChange={event=>statistics.setSharing(event.target.checked)}/>Share usage statistics</label>}</div>
  </section>;
 }

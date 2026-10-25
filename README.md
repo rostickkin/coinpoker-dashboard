@@ -18,7 +18,7 @@ Your hand history is processed on your device and never uploaded. Poker analysis
 - Days, Months, Limits, and Positions tables with sorting, draggable columns, and row-to-filter navigation. Limits groups stakes by ante amount, such as NL200 (0.32); clicking a row selects both stakes and ante.
 - Currency (`₮`) and big-blind (`BB`) display modes.
 - Data Quality / Coverage panel showing duplicates, conflicts, parsing errors, EV coverage, and unavailable facts.
-- Project Statistics cards for visits, estimated unique browsers, completed imports, hands processed, imported files and processed bytes. Counters require the optional collector; unavailable data is shown as `—`.
+- Compact CoinPoker Dashboard Statistics row at the bottom for visits, estimated unique browsers, completed imports, hands processed, imported files and processed bytes. Counters require the optional collector; unavailable data is shown as `—`.
 
 ## Getting started
 
