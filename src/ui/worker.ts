@@ -5,8 +5,10 @@ import {processHand,canonicalContent,Deduplicator,type ProcessedHand} from '../i
 import {calculateEV,type EquityCache} from '../equity/allInEV.ts';
 import {buildSessions,type Session} from '../metrics/sessions.ts';
 import {anteKey,anteLabel,playerOptions,positionOrder,fact,query,type Fact,type Filters,type Database,defaults} from './data.ts';
+import {HistoryStore} from '../review/store.ts';
 
 let facts:Fact[]=[],sessions:Session[]=[],db:Database,ready=false,filters=defaults,request=0;
+let histories=new HistoryStore();
 const send=(type:string,payload:unknown)=>postMessage({type,payload});
 const hex=(bytes:Uint8Array)=>Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
 function compatible(q:Filters):Filters {
@@ -14,8 +16,14 @@ function compatible(q:Filters):Filters {
 }
 function reply(){if(db){filters=compatible(filters);send('result',{request,filters,result:query(facts,sessions,filters,db,ready)});}}
 
-onmessage=async(event:MessageEvent<{type:string;files?:File[];filters?:Filters;request?:number}>)=>{
+onmessage=async(event:MessageEvent<{type:string;files?:File[];filters?:Filters;request?:number;ids?:string[]}>)=>{
  const m=event.data;
+ if(m.type==='hands'){
+  const store=histories;
+  try{send('hands',{request:m.request,hands:await store.load(m.ids??[])});}
+  catch(error){send('hands',{request:m.request,hands:[],error:String(error)});}
+  return;
+ }
  if(m.type==='query'){filters=m.filters!;request=m.request!;reply();return;}
  if(m.type!=='import')return;
  try {
@@ -24,7 +32,7 @@ onmessage=async(event:MessageEvent<{type:string;files?:File[];filters?:Filters;r
   const start=performance.now(),hash=sha256.create(),dedup=new Deduplicator(),queue:{p:ProcessedHand;f:Fact}[]=[],cache:EquityCache=new Map();
   const sources:Database['files']=[],totalBytes=files.reduce((sum,file)=>sum+file.size,0);
   let bytes=0,parsed=0,duplicates=0,conflicts=0,errors=0,last=0;
-  facts=[];ready=false;
+  facts=[];ready=false;histories=new HistoryStore();
   for(const [index,file] of files.entries()){
    const fileHash=sha256.create();let foundHand=false;
    const stage=`Parsing & normalizing · file ${index+1}/${files.length} · ${file.name}`;
@@ -40,6 +48,7 @@ onmessage=async(event:MessageEvent<{type:string;files?:File[];filters?:Filters;r
     else {
      errors+=p.hand.diagnostics.filter(d=>d.severity==='error').length;
      const f=fact(p);facts.push(f);
+     if(p.hero.netWon.value!==null&&p.hero.netWon.value<0n)histories.add(p.hand.handId,file,raw);
      if(p.hand.gameType==='BombPot'||p.hero.logicalShowdown.value===true&&p.ledger.actions.some(a=>a.allIn))queue.push({p,f});
      else f.ev=calculateEV(p.hand,p.ledger,p.pots,p.hero,cache);
     }

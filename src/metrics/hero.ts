@@ -3,14 +3,14 @@ import type {Hand} from '../parser/model.ts';
 import type {Ledger} from '../normalize/ledger.ts';
 import type {PotLayer} from '../pots/potBuilder.ts';
 export interface HeroMetrics {netWon:Value<bigint>;showdownWon:Value<bigint>;nonShowdownWon:Value<bigint>;logicalShowdown:Value<boolean>;sawFlop:Value<boolean>;receivedPotAward:Value<boolean>;vpip:Value<boolean>;pfr:Value<boolean>;threeBetOpportunity:Value<boolean>;threeBetMade:Value<boolean>;position:Value<string>;heroAttributedRake:Value<bigint>;heroAttributedSplashFee:Value<bigint>}
-export function position(h:Hand):Value<string> {
+export function position(h:Hand,playerName='Hero'):Value<string> {
  if(h.gameType!=='NLH')return unsupported('POSITION_GAME_UNSUPPORTED');
  const seats=h.players.filter(p=>p.dealtIn).sort((a,b)=>a.seat-b.seat),btn=seats.findIndex(p=>p.seat===h.buttonSeat);
  if(btn<0)return missing('BUTTON_NOT_DEALT');const ring=[...seats.slice(btn),...seats.slice(0,btn)];
  const labels:Record<number,string[]>={2:['BU','BB'],3:['BU','SB','BB'],4:['BU','SB','BB','CO'],5:['BU','SB','BB','MP','CO'],6:['BU','SB','BB','EP','MP','CO']};
  const l=labels[ring.length];if(!l)return missing('UNSUPPORTED_PLAYER_COUNT');
  for(const a of h.actions.filter(a=>a.kind==='sb'||a.kind==='bb')){const expected=a.kind==='sb'?(ring.length===2?0:1):(ring.length===2?1:2);if(ring[expected]?.name!==a.player)return missing('BLIND_RING_CONFLICT');}
- const index=ring.findIndex(p=>p.name==='Hero');return index<0?missing('HERO_NOT_DEALT'):available(l[index]!);
+ const index=ring.findIndex(p=>p.name===playerName);return index<0?missing('HERO_NOT_DEALT'):available(l[index]!);
 }
 export function heroMetrics(h:Hand,l:Ledger,pots:Value<PotLayer[]>):HeroMetrics {
  const hero=l.players.find(p=>p.name==='Hero'),invalid=h.diagnostics.some(d=>['INCOMPLETE_HAND','INVALID_SEATING'].includes(d.code));

@@ -17,6 +17,9 @@ Your hand history is processed on your device and never uploaded. Poker analysis
 - Global filters for dates, stakes, position, player count, game type, ante in BB, and Splash category. Players offers HU through 6-max, plus 7-max through 10-max when present in the database. Positions use EP, MP, CO, BU, SB, BB (the heads-up button is BU).
 - Days, Months, Limits, and Positions tables with sorting, draggable columns, and row-to-filter navigation. Limits groups stakes by ante amount, such as NL200 (0.32); clicking a row selects both stakes and ante.
 - Currency (`₮`) and big-blind (`BB`) display modes.
+- Top 10 losing hands under the analysis tables, following global filters and including folds with negative Net Won. Choose pot ranking in `₮` or `BB` independently of the display unit; rankings use total pot before rake and Splash Fee.
+- Compact cards and action histories: R raise, B bet, C call, X check, F fold, AI all-in; Hero actions are underlined and action tooltips show the player and original sizing.
+- Click a hand to open the in-page replayer with action playback, street navigation, stack/pot updates and recorded card reveals. The document icon opens formatted or original text with copying. Escape, the backdrop and the close button dismiss either modal.
 - Data Quality / Coverage panel showing duplicates, conflicts, parsing errors, EV coverage, and unavailable facts.
 - Compact CoinPoker Dashboard Statistics row at the bottom for visits, estimated unique browsers, completed imports, hands processed, imported files and processed bytes. Counters require the optional collector; unavailable data is shown as `—`.
 
@@ -31,6 +34,8 @@ Your hand history is processed on your device and never uploaded. Poker analysis
 The default game filter is **NLH**. Select **Game Type → All** to include BombPot hands. **Clear filters** and **Reset filters** (beside **Reset columns** below the chart) restore the default NLH selection.
 
 Hand data lives in the tab's memory: reload the page and select your files again. Only interface preferences are saved in `localStorage`. Cancelling a replacement import preserves the previous completed database.
+
+Hand review keeps byte ranges into the selected files and loads only the requested hands, with at most 20 parsed review hands cached. The original files remain on your device. Unknown cards stay hidden; hand diagnostics remain available inside the viewer when source information is ambiguous.
 
 ## Architecture
 
