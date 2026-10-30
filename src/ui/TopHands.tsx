@@ -29,13 +29,13 @@ export function TopHands({rows:queryRows,ranking,onRankingChange,worker,unit}:{r
  },[worker,ids,retry]);
  const open=(id:string,view:'replay'|'text',opener:HTMLButtonElement)=>{const hand=details[id];if(hand)setOpened({hand,view,opener});};
  const change=(patch:Partial<HandRanking>)=>onRankingChange({...ranking,...patch});
- const sort=(metric:HandRanking['metric'])=>change({metric,direction:ranking.metric===metric&&ranking.direction==='desc'?'asc':'desc'});
+ const sort=(metric:HandRanking['metric'])=>change({metric,direction:ranking.metric===metric?(ranking.direction==='desc'?'asc':'desc'):(metric==='net'?'asc':'desc')});
  return <section className="panel losing-hands top-hands" aria-label="Top 10 hands">
-  <div className="section-head"><div><h2>Top 10 hands</h2><small>Current filters · {ranking.metric==='net'?'Hero Net Won':'Total pot before charges'} · {ranking.direction==='desc'?'Highest first':'Lowest first'}</small></div>
+  <div className="section-head"><div><h2>Top 10 hands</h2><small>Current filters · {ranking.metric==='net'?'Hero Net Won':'Total pot before charges'} · {ranking.metric==='net'?(ranking.direction==='asc'?'Biggest losses first':'Biggest wins first'):(ranking.direction==='desc'?'Largest pots first':'Smallest pots first')}</small></div>
    <div className="review-sort">
     <label className="review-splash-filter"><input type="checkbox" aria-label="Splash hands only" checked={ranking.splashOnly} onChange={e=>change({splashOnly:e.target.checked})}/><span className="review-splash-badge" aria-hidden="true">S</span><span>Splash only</span></label>
-    <label className="review-rank-select">Sort by<select aria-label="Rank hands by" value={ranking.metric} onChange={e=>change({metric:e.target.value as HandRanking['metric'],direction:'desc'})}><option value="net">Net Won</option><option value="pot">Pot</option></select></label>
-    <button className="review-sort-direction" aria-label="Reverse hand sort order" onClick={()=>change({direction:ranking.direction==='desc'?'asc':'desc'})}>{ranking.direction==='desc'?'High to low ↓':'Low to high ↑'}</button>
+    <label className="review-rank-select">Sort by<select aria-label="Rank hands by" value={ranking.metric} onChange={e=>{const metric=e.target.value as HandRanking['metric'];change({metric,direction:metric==='net'?'asc':'desc'});}}><option value="net">Net Won</option><option value="pot">Pot</option></select></label>
+    <button className="review-sort-direction" aria-label="Reverse hand sort order" onClick={()=>change({direction:ranking.direction==='desc'?'asc':'desc'})}>{ranking.metric==='net'?(ranking.direction==='asc'?'Losses first ↑':'Wins first ↓'):(ranking.direction==='desc'?'High to low ↓':'Low to high ↑')}</button>
     <div className="unit" aria-label="Hand ranking unit">{(['currency','bb'] as const).map(mode=><button key={mode} aria-label={'Rank hands in '+(mode==='bb'?'BB':'₮')} aria-pressed={ranking.unit===mode} onClick={()=>change({unit:mode})}>{mode==='bb'?'BB':'₮'}</button>)}</div>
    </div>
   </div>

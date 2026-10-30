@@ -2,8 +2,7 @@ import type {ReviewEvent} from '../review/model.ts';
 
 export function Cards({cards}:{cards:readonly string[]|null}){
  if(!cards)return <span className="review-cards" aria-label="Cards not revealed"><span className="playing-card-back">?</span><span className="playing-card-back">?</span></span>;
- const suits:Record<string,string>={s:'♠',h:'♥',d:'♦',c:'♣'};
- return <span className="review-cards">{cards.map((card,i)=><span key={i} className={'playing-card suit-'+card.slice(-1)} aria-label={card}>{card.slice(0,-1)}<span>{suits[card.slice(-1)]??'?'}</span></span>)}</span>;
+ return <span className="review-cards">{cards.map((card,i)=><span key={i} className={'playing-card suit-'+card.slice(-1)} aria-label={card}>{card.slice(0,-1)}</span>)}</span>;
 }
 export function reviewMoney(amount:bigint|null,bb:bigint,unit:string):string {
  if(amount===null)return '—';

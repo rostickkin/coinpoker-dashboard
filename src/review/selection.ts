@@ -2,7 +2,7 @@ import type {Fact} from '../ui/data.ts';
 
 export interface RankedHand {id:string;date:string;bigBlind:bigint;pot:bigint|null;net:bigint|null;position:string;splashType:Fact['hand']['splashType']}
 export interface HandRanking {metric:'net'|'pot';direction:'asc'|'desc';unit:'currency'|'bb';splashOnly:boolean}
-export const defaultHandRanking:HandRanking={metric:'net',direction:'desc',unit:'currency',splashOnly:false};
+export const defaultHandRanking:HandRanking={metric:'net',direction:'asc',unit:'currency',splashOnly:false};
 
 export function rankHands(facts:readonly Fact[],options:HandRanking=defaultHandRanking):RankedHand[] {
  const result:{hand:RankedHand;value:bigint}[]=[];

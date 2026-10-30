@@ -9,12 +9,13 @@ import type {Database} from '../src/ui/data.ts';
 async function fixture(id:string){const lines=fs.readFileSync(`tests/fixtures/${id}.txt`,'utf8').trimEnd().split(/\r?\n/).map((raw,i)=>({raw,line:i+1}));return processHand({lines,startLine:1,endLine:lines.length},{equity:false});}
 const database={} as Database;
 
-test('Top 10 defaults to biggest Hero wins and can rank losses or pots in currency and BB',async()=>{
+test('Top 10 defaults to biggest Hero losses and can rank wins or pots in currency and BB',async()=>{
  const p=await fixture('900000011'),a=fact(p),b=fact(await fixture('900000005'));
  a.hand.totalPot=20000n;a.hand.bigBlind=100n;a.hero.netWon.value=-10000n;
  b.hand.totalPot=30000n;b.hand.bigBlind=500n;b.hero.netWon.value=9000n;
  const result=query([a,b],[],defaults,database,true);
- assert.deepEqual(result.topHands.map(h=>h.id),['900000005','900000011']);
+ assert.deepEqual(result.topHands.map(h=>h.id),['900000011','900000005']);
+ assert.deepEqual(query([a,b],[],defaults,database,true,{metric:'net',direction:'desc',unit:'currency',splashOnly:false}).topHands.map(h=>h.id),['900000005','900000011']);
  assert.deepEqual(query([a,b],[],defaults,database,true,{metric:'net',direction:'asc',unit:'bb',splashOnly:false}).topHands.map(h=>h.id),['900000011','900000005']);
  assert.deepEqual(query([a,b],[],defaults,database,true,{metric:'pot',direction:'desc',unit:'currency',splashOnly:false}).topHands.map(h=>h.id),['900000005','900000011']);
  assert.deepEqual(query([a,b],[],defaults,database,true,{metric:'pot',direction:'asc',unit:'currency',splashOnly:false}).topHands.map(h=>h.id),['900000011','900000005']);

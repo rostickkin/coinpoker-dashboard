@@ -1,5 +1,7 @@
 .history-dialog{width:min(860px,calc(100% - 40px))}
 .history-dialog .history-toolbar{border-top:0;background:#141f2d;padding:11px 24px}
+.history-view-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.history-toolbar-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
 .history-formatted{padding:0;line-height:1.5;font-size:13px}
 .history-formatted p{margin:0}
 .history-overview{padding:24px 28px 20px}
@@ -31,11 +33,6 @@
 .history-hole-cards>span,.history-street-board>small{color:#a3b2c6;font-size:10px}
 .history-formatted .review-cards{gap:4px}
 .history-formatted .playing-card,.history-formatted .playing-card-back{height:39px;min-width:30px;font-size:17px;padding:2px 4px;border-radius:4px;color:#fff;border:0}
-.history-formatted .playing-card>span{font-size:11px;align-self:flex-end;margin-bottom:3px}
-.history-formatted .playing-card.suit-s{background:#536174}
-.history-formatted .playing-card.suit-h{background:#b92f47}
-.history-formatted .playing-card.suit-d{background:#1765ad}
-.history-formatted .playing-card.suit-c{background:#197b4b}
 .history-formatted .playing-card-back{background:#2b3a4c;color:#a5b5ca}
 .history-action-line{font-size:14px;line-height:1.95;overflow-wrap:anywhere;color:#d5dfed}
 .history-actor{font-weight:600;color:#b3c3d7}
@@ -70,6 +67,7 @@
  .history-dialog .history-toolbar{padding:10px 16px;gap:6px}
  .history-dialog .history-toolbar button{font-size:11px;padding:7px 9px}
  .history-dialog .history-toolbar>span:empty{display:none}
+ .history-view-controls{gap:8px}
  .history-street,.history-showdown{padding:20px}
  .history-street-head{gap:12px;flex-wrap:wrap;margin-bottom:13px}
  .history-street-boards{justify-content:flex-start}

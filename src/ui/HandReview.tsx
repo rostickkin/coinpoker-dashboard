@@ -6,7 +6,7 @@ import './hand-review.css';
 import './formatted-history.css';
 
 export function HandReview({hand,initialView,unit,opener,onClose}:{hand:ReviewHand;initialView:'replay'|'text';unit:string;opener:HTMLButtonElement;onClose:()=>void}){
- const [view,setView]=useState(initialView),[index,setIndex]=useState(0),[playing,setPlaying]=useState(false),[raw,setRaw]=useState(false),[copyStatus,setCopyStatus]=useState('');
+ const [view,setView]=useState(initialView),[index,setIndex]=useState(0),[playing,setPlaying]=useState(false),[raw,setRaw]=useState(false),[historyUnit,setHistoryUnit]=useState(unit==='BB'?'BB':'₮'),[copyStatus,setCopyStatus]=useState('');
  const dialog=useRef<HTMLDialogElement>(null),last=hand.events.length-1,event=hand.events[index]!,frame=event.frame;
  useEffect(()=>{const node=dialog.current!,overflow=document.body.style.overflow;node.showModal();document.body.style.overflow='hidden';return ()=>{node.close();document.body.style.overflow=overflow;opener.focus();};},[opener]);
  useEffect(()=>{if(!playing)return;const timer=setInterval(()=>setIndex(i=>Math.min(i+1,last)),850);return ()=>clearInterval(timer);},[playing,last]);
@@ -34,8 +34,8 @@ export function HandReview({hand,initialView,unit,opener,onClose}:{hand:ReviewHa
    <input className="replay-progress" aria-label="Replay action" type="range" min={0} max={last} value={index} onChange={e=>jump(Number(e.target.value))}/>
    <div className="replay-current" role="status" aria-live="polite">{event.text}</div>
   </>:<>
-   <div className="history-toolbar"><div className="unit"><button aria-pressed={!raw} onClick={()=>setRaw(false)}>Formatted</button><button aria-pressed={raw} onClick={()=>setRaw(true)}>Original text</button></div><span role="status">{copyStatus}</span><button onClick={()=>void copy()}><ReviewIcon name="copy"/>Copy</button><button onClick={switchView}><ReviewIcon name="play"/>Replay</button></div>
-   <div className={'history-body '+(raw?'':'history-formatted')}>{raw?<pre>{hand.raw}</pre>:<FormattedHistory hand={hand} unit={unit}/>}</div>
+   <div className="history-toolbar"><div className="history-view-controls"><div className="unit"><button aria-pressed={!raw} onClick={()=>setRaw(false)}>Formatted</button><button aria-pressed={raw} onClick={()=>setRaw(true)}>Original text</button></div><div className="unit history-unit" role="group" aria-label="Hand history units" title={raw?'Original text keeps its recorded amounts.':'Bet sizes and results in currency or big blinds'}>{(['₮','BB'] as const).map(mode=><button key={mode} aria-label={'Show hand history in '+mode} aria-pressed={historyUnit===mode} disabled={raw} onClick={()=>setHistoryUnit(mode)}>{mode}</button>)}</div></div><span role="status">{copyStatus}</span><div className="history-toolbar-actions"><button onClick={()=>void copy()}><ReviewIcon name="copy"/>Copy</button><button onClick={switchView}><ReviewIcon name="play"/>Replay</button></div></div>
+   <div className={'history-body '+(raw?'':'history-formatted')}>{raw?<pre>{hand.raw}</pre>:<FormattedHistory hand={hand} unit={historyUnit}/>}</div>
   </>}
   {!!hand.issues.length&&<details className="review-issues"><summary>Hand diagnostics ({hand.issues.length})</summary><p>{hand.issues.join(' · ')}</p></details>}
  </div></dialog>;
