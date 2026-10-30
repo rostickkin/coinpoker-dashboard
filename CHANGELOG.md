@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1 — 2026-10-30
+
+### Added
+
+- Project spade logo beside the dashboard heading, spanning both title lines with responsive sizing.
+
 ## 0.4.0 — 2026-10-30
 
 ### Added
