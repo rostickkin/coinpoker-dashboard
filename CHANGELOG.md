@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.1 — 2026-10-30
+
+### Changed
+
+- Top 10 losing hands ranks by Hero's Net Won, with the biggest losses first in currency or BB.
+
+### Added
+
+- Gold S badges beside Splash and Mega Splash hands in the losing-hands table.
+
 ## 0.3.0 — 2026-10-27
 
 ### Added

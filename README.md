@@ -17,7 +17,7 @@ Your hand history is processed on your device and never uploaded. Poker analysis
 - Global filters for dates, stakes, position, player count, game type, ante in BB, and Splash category. Players offers HU through 6-max, plus 7-max through 10-max when present in the database. Positions use EP, MP, CO, BU, SB, BB (the heads-up button is BU).
 - Days, Months, Limits, and Positions tables with sorting, draggable columns, and row-to-filter navigation. Limits groups stakes by ante amount, such as NL200 (0.32); clicking a row selects both stakes and ante.
 - Currency (`₮`) and big-blind (`BB`) display modes.
-- Top 10 losing hands under the analysis tables, following global filters and including folds with negative Net Won. Choose pot ranking in `₮` or `BB` independently of the display unit; rankings use total pot before rake and Splash Fee.
+- Top 10 losing hands under the analysis tables, following global filters and including folds with negative Net Won. Rank by Hero's biggest losses in `₮` or `BB` independently of the display unit. A gold **S** badge marks Splash and Mega Splash hands.
 - Compact cards and action histories: R raise, B bet, C call, X check, F fold, AI all-in; Hero actions are underlined and action tooltips show the player and original sizing.
 - Click a hand to open the in-page replayer with action playback, street navigation, stack/pot updates and recorded card reveals. The document icon opens formatted or original text with copying. Escape, the backdrop and the close button dismiss either modal.
 - Data Quality / Coverage panel showing duplicates, conflicts, parsing errors, EV coverage, and unavailable facts.

@@ -9,9 +9,10 @@ import type {Database} from '../src/ui/data.ts';
 async function fixture(id:string){const lines=fs.readFileSync(`tests/fixtures/${id}.txt`,'utf8').trimEnd().split(/\r?\n/).map((raw,i)=>({raw,line:i+1}));return processHand({lines,startLine:1,endLine:lines.length},{equity:false});}
 const database={} as Database;
 
-test('losing pots are filtered and ranked independently by currency and exact BB ratios',async()=>{
+test('Hero losses are filtered and ranked by Net Won independently of pot size in currency and BB',async()=>{
  const p=await fixture('900000011'),a=fact(p),b=fact(await fixture('900000005'));
- a.hand.totalPot=10000n;a.hand.bigBlind=100n;b.hand.totalPot=9000n;b.hand.bigBlind=50n;
+ a.hand.totalPot=20000n;a.hand.bigBlind=100n;a.hero.netWon.value=-10000n;
+ b.hand.totalPot=30000n;b.hand.bigBlind=50n;b.hero.netWon.value=-9000n;
  const result=query([a,b],[],defaults,database,true);
  assert.deepEqual(result.losingHands.currency.map(h=>h.id),['900000011','900000005']);
  assert.deepEqual(result.losingHands.bb.map(h=>h.id),['900000005','900000011']);
@@ -22,7 +23,7 @@ test('losing pots are filtered and ranked independently by currency and exact BB
 
 test('top ten membership changes with BB ranking and uses exact large integer comparisons',async()=>{
  const base=fact(await fixture('900000011'));
- const facts=Array.from({length:12},(_,i)=>({...base,hand:{...base.hand,handId:String(i+1),totalPot:10000000000000000n+BigInt(i),bigBlind:i===0?1n:100n}}));
+ const facts=Array.from({length:12},(_,i)=>({...base,hand:{...base.hand,handId:String(i+1),totalPot:30000000000000000n-BigInt(i),bigBlind:i===0?1n:100n},hero:{...base.hero,netWon:{...base.hero.netWon,value:-10000000000000000n-BigInt(i)}}}));
  const result=query(facts,[],defaults,database,true);
  assert.equal(result.losingHands.currency.length,10);assert.equal(result.losingHands.currency[0]!.id,'12');
  assert.equal(result.losingHands.currency.some(h=>h.id==='1'),false);

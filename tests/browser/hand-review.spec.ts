@@ -35,12 +35,15 @@ test('losing hands rank independently, follow filters and open both safe accessi
  await expect(rows).toHaveCount(10);await expect(rows.first()).toContainText('910000201');
  await expect(section.getByRole('button',{name:'Replay hand 910000201',exact:true})).toBeEnabled();
  await section.screenshot({path:'test-results/losing-hands-table.png'});
- await section.getByRole('button',{name:'Sort pots by BB',exact:true}).click();
+ await section.getByRole('button',{name:'Sort losses by BB',exact:true}).click();
  await expect(rows.first()).toContainText('910000202');await expect(rows.first()).toContainText('₮60.00');
  await page.getByRole('button',{name:'BB',exact:true}).click();await expect(rows.first()).toContainText('60.00 BB');
- await section.getByRole('button',{name:'Sort pots by ₮',exact:true}).click();await expect(rows.first()).toContainText('910000201');
+ await section.getByRole('button',{name:'Sort losses by ₮',exact:true}).click();await expect(rows.first()).toContainText('910000201');
  await page.getByLabel('Limit',{exact:true}).selectOption('200');await expect(rows).toHaveCount(10);await expect(rows.first()).not.toContainText('910000201');
  await page.getByRole('button',{name:'Clear filters',exact:true}).click();
+ await expect(section.getByRole('button',{name:'Replay hand 900000022',exact:true})).toHaveCount(0);
+ await page.getByLabel('Select CoinPoker file').setInputFiles({name:'replay.txt',mimeType:'text/plain',buffer:Buffer.from(fs.readFileSync('tests/fixtures/900000022.txt','utf8'))});
+ await expect(rows).toHaveCount(1);
  await section.getByRole('button',{name:'Replay hand 900000022',exact:true}).click();
  const dialog=page.getByRole('dialog',{name:'Hand replayer'});
  await expect(dialog).toBeVisible();await expect(dialog.locator('.replay-board .playing-card')).toHaveCount(0);
@@ -74,4 +77,26 @@ test('losing hands rank independently, follow filters and open both safe accessi
  await section.getByRole('button',{name:'Text history for hand 900000022',exact:true}).click();
  await expect(text.locator('.history-body')).toContainText('Player104 showed');
  expect(errors).toEqual([]);
+});
+
+test('Hero loss determines the ranking and Splash hands have a badge beside the hand number',async({page})=>{
+ const splash=fs.readFileSync('tests/fixtures/900000016.txt','utf8');
+ const mega=splash.replaceAll('900000016','900000116').replace('SPLASH dropped','MEGA SPLASH dropped');
+ const sample=[fs.readFileSync('tests/fixtures/900000015.txt','utf8'),foldHand(910001001,1,20),splash,mega].join('\r\n');
+ await page.goto('/');
+ await page.getByLabel('Select CoinPoker file').setInputFiles({name:'splash-review.txt',mimeType:'text/plain',buffer:Buffer.from(sample)});
+ const section=page.getByRole('region',{name:'Top 10 losing hands'}),rows=section.locator('tbody tr');
+ await expect(rows).toHaveCount(4,{timeout:90000});
+ await expect(rows.locator('.hand-open')).toHaveText([
+  /#900000116/,/#900000016/,/#910001001/,/#900000015/
+ ]);
+ await expect(section.getByRole('columnheader',{name:'Net Won'})).toHaveAttribute('aria-sort','ascending');
+ for(const id of ['900000016','900000116']){
+  const row=rows.filter({has:page.getByRole('button',{name:'Replay hand '+id,exact:true})});
+  await expect(row.getByLabel('Splash hand',{exact:true})).toHaveText('S');
+ }
+ for(const id of ['900000015','910001001']){
+  await expect(rows.filter({has:page.getByRole('button',{name:'Replay hand '+id,exact:true})}).getByLabel('Splash hand',{exact:true})).toHaveCount(0);
+ }
+ await section.screenshot({path:'test-results/losing-hands-splash.png'});
 });
