@@ -9,25 +9,43 @@ import type {Database} from '../src/ui/data.ts';
 async function fixture(id:string){const lines=fs.readFileSync(`tests/fixtures/${id}.txt`,'utf8').trimEnd().split(/\r?\n/).map((raw,i)=>({raw,line:i+1}));return processHand({lines,startLine:1,endLine:lines.length},{equity:false});}
 const database={} as Database;
 
-test('Hero losses are filtered and ranked by Net Won independently of pot size in currency and BB',async()=>{
+test('Top 10 defaults to biggest Hero wins and can rank losses or pots in currency and BB',async()=>{
  const p=await fixture('900000011'),a=fact(p),b=fact(await fixture('900000005'));
  a.hand.totalPot=20000n;a.hand.bigBlind=100n;a.hero.netWon.value=-10000n;
- b.hand.totalPot=30000n;b.hand.bigBlind=50n;b.hero.netWon.value=-9000n;
+ b.hand.totalPot=30000n;b.hand.bigBlind=500n;b.hero.netWon.value=9000n;
  const result=query([a,b],[],defaults,database,true);
- assert.deepEqual(result.losingHands.currency.map(h=>h.id),['900000011','900000005']);
- assert.deepEqual(result.losingHands.bb.map(h=>h.id),['900000005','900000011']);
- assert.equal(query([a,b],[],{...defaults,limits:['50']},database,true).losingHands.currency.length,1);
- b.hero.netWon.value=0n;assert.equal(query([a,b],[],defaults,database,true).losingHands.currency.length,1);
- a.hero.netWon.value=null;assert.equal(query([a,b],[],defaults,database,true).losingHands.currency.length,0);
+ assert.deepEqual(result.topHands.map(h=>h.id),['900000005','900000011']);
+ assert.deepEqual(query([a,b],[],defaults,database,true,{metric:'net',direction:'asc',unit:'bb',splashOnly:false}).topHands.map(h=>h.id),['900000011','900000005']);
+ assert.deepEqual(query([a,b],[],defaults,database,true,{metric:'pot',direction:'desc',unit:'currency',splashOnly:false}).topHands.map(h=>h.id),['900000005','900000011']);
+ assert.deepEqual(query([a,b],[],defaults,database,true,{metric:'pot',direction:'asc',unit:'currency',splashOnly:false}).topHands.map(h=>h.id),['900000011','900000005']);
+ assert.deepEqual(query([a,b],[],defaults,database,true,{metric:'pot',direction:'desc',unit:'bb',splashOnly:false}).topHands.map(h=>h.id),['900000011','900000005']);
+ assert.equal(query([a,b],[],{...defaults,limits:['500']},database,true).topHands.length,1);
+ b.hero.netWon.value=0n;assert.equal(query([a,b],[],defaults,database,true).topHands.length,2);
+ a.hero.netWon.value=null;assert.equal(query([a,b],[],defaults,database,true).topHands.length,1);
 });
 
 test('top ten membership changes with BB ranking and uses exact large integer comparisons',async()=>{
  const base=fact(await fixture('900000011'));
  const facts=Array.from({length:12},(_,i)=>({...base,hand:{...base.hand,handId:String(i+1),totalPot:30000000000000000n-BigInt(i),bigBlind:i===0?1n:100n},hero:{...base.hero,netWon:{...base.hero.netWon,value:-10000000000000000n-BigInt(i)}}}));
- const result=query(facts,[],defaults,database,true);
- assert.equal(result.losingHands.currency.length,10);assert.equal(result.losingHands.currency[0]!.id,'12');
- assert.equal(result.losingHands.currency.some(h=>h.id==='1'),false);
- assert.equal(result.losingHands.bb[0]!.id,'1');
+ const result=query(facts,[],defaults,database,true,{metric:'net',direction:'asc',unit:'currency',splashOnly:false});
+ assert.equal(result.topHands.length,10);assert.equal(result.topHands[0]!.id,'12');
+ assert.equal(result.topHands.some(h=>h.id==='1'),false);
+ assert.equal(query(facts,[],defaults,database,true,{metric:'net',direction:'asc',unit:'bb',splashOnly:false}).topHands[0]!.id,'1');
+});
+
+test('Splash-only ranking selects from all filtered hands before taking ten and preserves global results',async()=>{
+ const base=fact(await fixture('900000011'));
+ const facts=Array.from({length:13},(_,i)=>({...base,hand:{...base.hand,handId:String(i+1),splashType:i<11?'none' as const:i===11?'regular' as const:'mega' as const},hero:{...base.hero,netWon:{...base.hero.netWon,value:BigInt(100-i)}}}));
+ const result=query(facts,[],defaults,database,true,{metric:'net',direction:'desc',unit:'currency',splashOnly:true});
+ assert.deepEqual(result.topHands.map(h=>h.id),['12','13']);
+ assert.equal(result.summary.hands,13);assert.equal(result.points.length,13);
+});
+
+test('Pot ranking includes hands with unavailable Hero results; Net Won ranking includes hands without pot totals',async()=>{
+ const a=fact(await fixture('900000011')),b=fact(await fixture('900000005'));
+ a.hand.totalPot=null;b.hero.netWon.value=null;
+ assert.deepEqual(query([a,b],[],defaults,database,true).topHands.map(h=>h.id),['900000011']);
+ assert.deepEqual(query([a,b],[],defaults,database,true,{metric:'pot',direction:'desc',unit:'currency',splashOnly:false}).topHands.map(h=>h.id),['900000005']);
 });
 
 test('source byte ranges preserve BOM, CRLF, Unicode and a split UTF-8 codepoint',async()=>{
@@ -103,4 +121,28 @@ test('conflicting later shows cannot rewrite an earlier card reveal',async()=>{
  assert.deepEqual(reveals[0]!.frame.players.find(p=>p.name==='Player47')!.cards,['Qs','Qd']);
  assert.deepEqual(reveals[1]!.frame.players.find(p=>p.name==='Player47')!.cards,['Jc','Jd']);
  assert.ok(review.issues.includes('CONFLICTING_HOLE_CARDS'));
+});
+
+test('formatted history groups streets with the opening pot, active players and Hero actions',async()=>{
+ const {buildReview}=await import('../src/review/model.ts');
+ const {historyStreets,showdownResults}=await import('../src/review/history.ts');
+ const review=buildReview(await fixture('900000011')),streets=historyStreets(review);
+ assert.deepEqual(streets.map(street=>street.street),['preflop','flop','turn','river']);
+ assert.equal(streets[0]!.pot,246n);assert.equal(streets[0]!.players,6);
+ assert.ok(streets[0]!.events.some(event=>event.player==='Hero'&&event.code==='R'&&event.amount===1000n));
+ assert.deepEqual(streets[1]!.boards,{0:['Th','2h','Jc']});
+ const results=showdownResults(review),hero=results.find(result=>result.player.name==='Hero')!,winner=results.find(result=>result.player.name==='Player47')!;
+ assert.equal(hero.player.net,-10000n);assert.equal(winner.player.net,9914n);
+ assert.deepEqual(hero.cards,['Ah','Ks']);assert.deepEqual(winner.cards,['Qs','Qd']);
+ assert.deepEqual(winner.combinations,['One pair']);
+});
+
+test('formatted history preserves multiple boards, returned bets and unrevealed opponents',async()=>{
+ const {buildReview}=await import('../src/review/model.ts');
+ const {historyStreets,showdownResults}=await import('../src/review/history.ts');
+ const review=buildReview(await fixture('900000022'));
+ assert.ok(historyStreets(review).flatMap(street=>street.events).some(event=>event.code==='Return'&&event.amount===6215n));
+ assert.equal(showdownResults(review).some(result=>result.player.name==='Player105'),false);
+ const bomb=historyStreets(buildReview(await fixture('900000013')));
+ assert.deepEqual(bomb.find(street=>street.street==='flop')!.boards,{0:['4s','Td','2h'],1:['Jh','Ts','6s']});
 });

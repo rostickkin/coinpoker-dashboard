@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0 — 2026-10-30
+
+### Added
+
+- Visual hand history with starting stacks, street-by-street boards and actions, Hero highlighting, and showdown cards and net results.
+- Net Won and Pot rankings in both directions, in currency or BB, with an independent Splash-only checkbox.
+
+### Changed
+
+- Top 10 hands includes wins and losses and defaults to the largest Hero Net Won first.
+- Winning hand histories are available for replay and formatted/original viewing.
+- Top 10 controls update independently of the results chart and analysis tables.
+
 ## 0.3.1 — 2026-10-30
 
 ### Changed

@@ -4,27 +4,33 @@ import {readableChunks} from '../import/browser.ts';
 import {processHand,canonicalContent,Deduplicator,type ProcessedHand} from '../import/core.ts';
 import {calculateEV,type EquityCache} from '../equity/allInEV.ts';
 import {buildSessions,type Session} from '../metrics/sessions.ts';
-import {anteKey,anteLabel,playerOptions,positionOrder,fact,query,type Fact,type Filters,type Database,defaults} from './data.ts';
+import {anteKey,anteLabel,playerOptions,positionOrder,fact,query,accepts,type Fact,type Filters,type Database,defaults} from './data.ts';
 import {HistoryStore} from '../review/store.ts';
+import {rankHands,defaultHandRanking,type HandRanking} from '../review/selection.ts';
 
 let facts:Fact[]=[],sessions:Session[]=[],db:Database,ready=false,filters=defaults,request=0;
 let histories=new HistoryStore();
+let handRanking=defaultHandRanking;
 const send=(type:string,payload:unknown)=>postMessage({type,payload});
 const hex=(bytes:Uint8Array)=>Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
 function compatible(q:Filters):Filters {
  return db?{...q,limits:q.limits.filter(v=>db.limits.includes(v)),positions:q.positions.filter(v=>db.positions.includes(v)),ante:db.antes.includes(q.ante)?q.ante:'',players:playerOptions(db.players).includes(q.players)?q.players:''}:q;
 }
-function reply(){if(db){filters=compatible(filters);send('result',{request,filters,result:query(facts,sessions,filters,db,ready)});}}
+function reply(){if(db){filters=compatible(filters);send('result',{request,filters,result:query(facts,sessions,filters,db,ready,handRanking)});}}
 
-onmessage=async(event:MessageEvent<{type:string;files?:File[];filters?:Filters;request?:number;ids?:string[]}>)=>{
+onmessage=async(event:MessageEvent<{type:string;files?:File[];filters?:Filters;handRanking?:HandRanking;request?:number;ids?:string[]}>)=>{
  const m=event.data;
+ if(m.type==='rankHands'){
+  handRanking=m.handRanking??defaultHandRanking;
+  send('rankedHands',{request:m.request,hands:rankHands(facts.filter(f=>accepts(f,filters)),handRanking)});return;
+ }
  if(m.type==='hands'){
   const store=histories;
   try{send('hands',{request:m.request,hands:await store.load(m.ids??[])});}
   catch(error){send('hands',{request:m.request,hands:[],error:String(error)});}
   return;
  }
- if(m.type==='query'){filters=m.filters!;request=m.request!;reply();return;}
+ if(m.type==='query'){filters=m.filters!;handRanking=m.handRanking??defaultHandRanking;request=m.request!;reply();return;}
  if(m.type!=='import')return;
  try {
   const files=m.files??[];
@@ -48,7 +54,7 @@ onmessage=async(event:MessageEvent<{type:string;files?:File[];filters?:Filters;r
     else {
      errors+=p.hand.diagnostics.filter(d=>d.severity==='error').length;
      const f=fact(p);facts.push(f);
-     if(p.hero.netWon.value!==null&&p.hero.netWon.value<0n)histories.add(p.hand.handId,file,raw);
+     histories.add(p.hand.handId,file,raw);
      if(p.hand.gameType==='BombPot'||p.hero.logicalShowdown.value===true&&p.ledger.actions.some(a=>a.allIn))queue.push({p,f});
      else f.ev=calculateEV(p.hand,p.ledger,p.pots,p.hero,cache);
     }

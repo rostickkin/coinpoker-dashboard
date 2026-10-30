@@ -3,7 +3,7 @@ import {position} from '../metrics/hero.ts';
 import {money} from '../core/value.ts';
 import type {Street} from '../parser/model.ts';
 
-export interface ReviewPlayer {name:string;seat:number;position:string;startingStack:bigint;cards:string[]|null;dealer:boolean}
+export interface ReviewPlayer {name:string;seat:number;position:string;startingStack:bigint;cards:string[]|null;dealer:boolean;net:bigint|null;collected:bigint}
 export interface ReplayPlayer {name:string;remaining:bigint;live:bigint;folded:boolean;allIn:boolean;cards:string[]|null}
 export interface ReplayFrame {street:string;boards:Record<number,string[]>;players:ReplayPlayer[];pot:bigint}
 export interface ReviewEvent {kind:'action'|'board'|'section'|'award'|'splash'|'warning';street:string;text:string;player?:string;code?:string;amount?:bigint;allIn?:boolean;board?:string[];boardIndex?:number;forced?:boolean;frame:ReplayFrame}
@@ -14,7 +14,11 @@ export function buildReview(p:ProcessedHand):ReviewHand {
  const {hand:h,ledger}=p;
  const sourceCards=(text:string)=>text.match(/\b[2-9TJQKA][cdhs]\b/g)??[];
  const dealtCards=(name:string)=>{const token=h.tokens.find(t=>t.category==='dealt'&&t.raw.startsWith(`Dealt to ${name} [`));return token?sourceCards(token.raw.slice(token.raw.indexOf('['))):null;};
- const players:ReviewPlayer[]=h.players.slice().sort((a,b)=>a.seat-b.seat).map(player=>({...player,cards:dealtCards(player.name)??player.cards,position:position(h,player.name).value??`Seat ${player.seat}`,dealer:player.seat===h.buttonSeat}));
+ const players:ReviewPlayer[]=h.players.slice().sort((a,b)=>a.seat-b.seat).map(player=>{
+  const financial=ledger.players.find(entry=>entry.name===player.name);
+  const net=player.name==='Hero'?p.hero.netWon.value:financial&&financial.effectiveContribution.value!==null&&financial.cashOut===0n?financial.collected-financial.literalContribution:null;
+  return {...player,cards:dealtCards(player.name)??player.cards,position:position(h,player.name).value??`Seat ${player.seat}`,dealer:player.seat===h.buttonSeat,net,collected:financial?.collected??0n};
+ });
  let state:ReplayFrame={street:'preflop',boards:{},players:players.map(player=>({name:player.name,remaining:player.startingStack,live:0n,folded:false,allIn:false,cards:player.name==='Hero'?dealtCards(player.name):null})),pot:0n};
  const events:ReviewEvent[]=[],normal=new Map(ledger.actions.map(a=>[a.raw.sequence,a])),actions=new Map(h.actions.map(a=>[a.sequence,a]));
  const awards=new Map<string,bigint>();let contributed=0n,splash=0n,paid=0n,summary=false;

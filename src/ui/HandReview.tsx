@@ -1,6 +1,9 @@
 import {useEffect,useRef,useState} from 'react';
 import type {ReviewHand} from '../review/model.ts';
 import {Cards,ReviewIcon,reviewMoney} from './ReviewCards.tsx';
+import {FormattedHistory} from './FormattedHistory.tsx';
+import './hand-review.css';
+import './formatted-history.css';
 
 export function HandReview({hand,initialView,unit,opener,onClose}:{hand:ReviewHand;initialView:'replay'|'text';unit:string;opener:HTMLButtonElement;onClose:()=>void}){
  const [view,setView]=useState(initialView),[index,setIndex]=useState(0),[playing,setPlaying]=useState(false),[raw,setRaw]=useState(false),[copyStatus,setCopyStatus]=useState('');
@@ -13,9 +16,9 @@ export function HandReview({hand,initialView,unit,opener,onClose}:{hand:ReviewHa
  const copy=async()=>{try{await navigator.clipboard.writeText(hand.raw);setCopyStatus('Copied');}catch{setRaw(true);setCopyStatus('Select the original text to copy.');}};
  const heroIndex=Math.max(0,hand.players.findIndex(p=>p.name==='Hero'));
  const streetIndices=['preflop','flop','turn','river','showdown'].map(street=>({street,index:hand.events.findIndex(e=>e.street===street&&(street==='preflop'||e.kind==='board'||e.kind==='section'))}));
- return <dialog ref={dialog} className="hand-review-dialog" aria-label={view==='replay'?'Hand replayer':'Hand history'} onCancel={e=>{e.preventDefault();onClose();}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}><div className="review-window">
+ return <dialog ref={dialog} className={'hand-review-dialog '+(view==='text'?'history-dialog':'')} aria-label={view==='replay'?'Hand replayer':'Hand history'} onCancel={e=>{e.preventDefault();onClose();}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}><div className="review-window">
   <div className="review-window-head"><div><h2>{view==='replay'?'Hand replayer':'Hand history'}</h2><small>CoinPoker · Hand #{hand.id}</small></div><button onClick={onClose} aria-label="Close window"><ReviewIcon name="close"/></button></div>
-  <div className="review-window-meta"><span>NL{Number(hand.bigBlind)} · {hand.players.length}-handed · {hand.game} · Table {hand.table} · {hand.date}</span><span>Hero <Cards cards={hand.players.find(p=>p.name==='Hero')?.cards??null}/> <span className={hand.net!==null&&hand.net<0n?'negative':'positive'}>{reviewMoney(hand.net,hand.bigBlind,unit)}</span></span></div>
+  {view==='replay'&&<div className="review-window-meta"><span>NL{Number(hand.bigBlind)} · {hand.players.length}-handed · {hand.game} · Table {hand.table} · {hand.date}</span><span>Hero <Cards cards={hand.players.find(p=>p.name==='Hero')?.cards??null}/> <span className={hand.net!==null&&hand.net<0n?'negative':'positive'}>{reviewMoney(hand.net,hand.bigBlind,unit)}</span></span></div>}
   {view==='replay'?<>
    <div className="replay-layout"><div className={'replay-table-stage '+(hand.players.length>6?'replay-many':'')}>
     <div className="replay-felt"><small>{frame.street}</small><strong>Pot {reviewMoney(frame.pot,hand.bigBlind,unit)}</strong><div className="replay-boards">{Object.entries(frame.boards).length?Object.entries(frame.boards).map(([board,cards])=><div className="replay-board" key={board}>{Object.keys(frame.boards).length>1&&<small>Board {Number(board)+1}</small>}<Cards cards={cards}/></div>):<div className="replay-board"><small>No board dealt</small></div>}</div></div>
@@ -32,7 +35,7 @@ export function HandReview({hand,initialView,unit,opener,onClose}:{hand:ReviewHa
    <div className="replay-current" role="status" aria-live="polite">{event.text}</div>
   </>:<>
    <div className="history-toolbar"><div className="unit"><button aria-pressed={!raw} onClick={()=>setRaw(false)}>Formatted</button><button aria-pressed={raw} onClick={()=>setRaw(true)}>Original text</button></div><span role="status">{copyStatus}</span><button onClick={()=>void copy()}><ReviewIcon name="copy"/>Copy</button><button onClick={switchView}><ReviewIcon name="play"/>Replay</button></div>
-   <div className="history-body">{raw?<pre>{hand.raw}</pre>:<><div className="history-players">{hand.players.map(player=><div key={player.name}><strong className={player.name==='Hero'?'positive':''}>{player.name}</strong> · {player.position} · {reviewMoney(player.startingStack,hand.bigBlind,unit)}{player.name==='Hero'&&<> <Cards cards={player.cards}/></>}</div>)}</div>{hand.events.filter((entry,i)=>i>0&&(entry.street!=='summary'||entry.code==='Show'||entry.kind==='board')).map((entry,i)=>entry.kind==='board'?<h3 key={i}>{entry.street[0]!.toUpperCase()+entry.street.slice(1)}{hand.events.some(e=>e.boardIndex===1)&&` · Board ${(entry.boardIndex??0)+1}`} <Cards cards={entry.board??[]}/></h3>:entry.kind==='section'?<h3 key={i}>{entry.text}</h3>:<div key={i} className={entry.player==='Hero'?'history-hero':''}>{entry.text}{entry.code==='Show'&&<> <Cards cards={entry.frame.players.find(p=>p.name===entry.player)?.cards??null}/></>}</div>)}<h3>Summary</h3><div>Total pot {reviewMoney(hand.pot,hand.bigBlind,unit)} · Rake {reviewMoney(hand.rake,hand.bigBlind,unit)} · Splash Fee {reviewMoney(hand.fee,hand.bigBlind,unit)}</div><div>Hero Net Won: <span className="negative">{reviewMoney(hand.net,hand.bigBlind,unit)}</span></div></>}</div>
+   <div className={'history-body '+(raw?'':'history-formatted')}>{raw?<pre>{hand.raw}</pre>:<FormattedHistory hand={hand} unit={unit}/>}</div>
   </>}
   {!!hand.issues.length&&<details className="review-issues"><summary>Hand diagnostics ({hand.issues.length})</summary><p>{hand.issues.join(' · ')}</p></details>}
  </div></dialog>;
