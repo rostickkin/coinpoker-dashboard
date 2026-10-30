@@ -8,5 +8,6 @@
 .top-hands .review-column-sort:hover{color:#e8eef7}
 .top-hands th[aria-sort]{color:#d5e0ef}
 .top-hands th[aria-sort] span{color:#80e9bc}
+.hand-review-actions{display:flex;justify-content:flex-end;align-items:center;gap:4px;white-space:nowrap}
 @media(max-width:800px){.top-hands .review-sort{gap:10px;justify-content:flex-start}.top-hands .section-head{align-items:flex-start}.top-hands .review-sort .unit button{min-height:34px}}
 @media(max-width:430px){.top-hands .review-sort{width:100%}.top-hands .review-splash-filter{width:100%}.top-hands .review-rank-select{gap:5px}.top-hands .review-sort-direction{min-width:105px;padding:7px}.top-hands .review-sort .unit button{min-width:35px;padding:7px}}

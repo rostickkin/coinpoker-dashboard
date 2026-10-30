@@ -32,7 +32,7 @@ test('Top 10 hands ranks both ways, follows filters and opens safe accessible re
  await page.getByLabel('Select CoinPoker file').setInputFiles({name:'review.txt',mimeType:'text/plain',buffer:Buffer.from('\uFEFF'+sample)});
  await expect(page.getByRole('button',{name:'Cancel import'})).toHaveCount(0,{timeout:90000});
  const section=page.getByRole('region',{name:'Top 10 hands',exact:true}),rows=section.locator('tbody tr');
- await expect(rows).toHaveCount(10);await expect(rows.first()).toContainText('910000201');
+ await expect(rows).toHaveCount(10,{timeout:90000});await expect(rows.first()).toContainText('910000201');
  await section.getByRole('button',{name:'Reverse hand sort order'}).click();
  await expect(rows.first()).toContainText('900000022');
  await section.getByRole('button',{name:'Reverse hand sort order'}).click();
@@ -79,6 +79,7 @@ test('Top 10 hands ranks both ways, follows filters and opens safe accessible re
  await page.getByLabel('Select CoinPoker file').setInputFiles({name:'summary-only.txt',mimeType:'text/plain',buffer:Buffer.from(summaryOnly)});
  await expect(rows).toContainText('900000022');
  await section.getByRole('button',{name:'Text history for hand 900000022',exact:true}).click();
+ await text.getByRole('button',{name:'Showdown',exact:true}).click();
  await expect(text.getByRole('region',{name:'Hand results'})).toContainText('Player104');
  await expect(text.getByRole('region',{name:'Hand results'})).toContainText('Three of a kind');
  expect(errors).toEqual([]);
@@ -140,6 +141,7 @@ test('winning hands open a visual street history with cards, results and respons
  await expect(history.locator('.history-roster-hero')).toContainText('Hero');
  await expect(history.locator('.history-street').first()).toContainText('Pot');
  await expect(history.locator('.history-action.is-hero')).not.toHaveCount(0);
+ await history.getByRole('button',{name:'Showdown',exact:true}).click();
  await expect(history.getByRole('region',{name:'Hand results'})).toContainText('Won');
  await history.getByRole('button',{name:'Close window',exact:true}).click();
  await section.getByRole('button',{name:'Text history for hand 900000020',exact:true}).click();
@@ -186,4 +188,57 @@ test('Hand History switches stakes between currency and BB independently of the 
  await page.setViewportSize({width:390,height:1200});
  await expect.poll(()=>history.evaluate(node=>node.scrollWidth<=node.clientWidth)).toBe(true);
  await currency.click();await expect(history.locator('.history-action-line').first()).toContainText('Hero raises to ₮25.00');
+});
+
+test('table rows open Hand History, replay has its own icon and showdown reveals on request',async({page})=>{
+ await page.goto('/');
+ await page.getByLabel('Select CoinPoker file').setInputFiles('tests/fixtures/900000020.txt');
+ const section=page.getByRole('region',{name:'Top 10 hands',exact:true}),row=section.locator('tbody tr').first();
+ await expect(row.locator('.hand-open')).toBeEnabled();
+ await row.locator('td').nth(1).click();
+ const history=page.getByRole('dialog',{name:'Hand history',exact:true});await expect(history).toBeVisible();
+ const showdown=history.getByRole('button',{name:'Showdown',exact:true}),content=history.locator('.history-showdown-content');
+ await expect(showdown).toHaveAttribute('aria-expanded','false');
+ expect(await content.evaluate(node=>node.getBoundingClientRect().height)).toBe(0);
+ await showdown.click();await expect(showdown).toHaveAttribute('aria-expanded','true');
+ await expect(content).toHaveCSS('opacity','1');await expect(content).toContainText('Two pair');
+ await showdown.press('Enter');await expect(showdown).toHaveAttribute('aria-expanded','false');await expect(content).toHaveCSS('opacity','0');
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await showdown.click();await expect(content).toHaveCSS('transition-duration','0s');await expect(content).toHaveCSS('opacity','1');
+ await page.keyboard.press('Escape');await expect(history).toHaveCount(0);
+ await expect(row.getByRole('button',{name:'Hand history for hand 900000020',exact:true})).toBeFocused();
+ const replay=row.getByRole('button',{name:'Replay hand 900000020',exact:true}),text=row.getByRole('button',{name:'Text history for hand 900000020',exact:true});
+ expect((await replay.boundingBox())!.x).toBeLessThan((await text.boundingBox())!.x);
+ await replay.click();await expect(page.getByRole('dialog',{name:'Hand replayer',exact:true})).toBeVisible();await expect(history).toHaveCount(0);
+});
+
+test('Hand History can be resized and downloads a complete PNG in the selected units',async({page},testInfo)=>{
+ await page.goto('/');
+ await page.getByLabel('Select CoinPoker file').setInputFiles('tests/fixtures/900000020.txt');
+ await page.getByRole('button',{name:'Text history for hand 900000020',exact:true}).click();
+ const history=page.getByRole('dialog',{name:'Hand history',exact:true});await expect(history).toBeVisible();
+ const screenshot=history.getByRole('button',{name:'Save hand history screenshot',exact:true});await expect(screenshot).toBeVisible();
+ await history.getByRole('button',{name:'Showdown',exact:true}).click();await expect(history.locator('.history-showdown-content')).toHaveCSS('opacity','1');
+ await history.getByRole('button',{name:'Show hand history in BB',exact:true}).click();
+ const before=(await history.boundingBox())!;
+ const handle=history.getByRole('button',{name:'Resize hand history',exact:true});await expect(handle).toBeVisible();
+ const grip=(await handle.boundingBox())!,gripX=grip.x+grip.width/2,gripY=grip.y+grip.height/2;
+ await page.mouse.move(gripX,gripY);await page.mouse.down();
+ await page.mouse.move(gripX-140,gripY-180,{steps:10});await page.mouse.up();
+ await expect.poll(async()=>(await history.boundingBox())!.width).toBeLessThan(before.width-40);
+ const resized=(await history.boundingBox())!;expect(resized.height).toBeLessThan(before.height-40);
+ await handle.press('ArrowRight');
+ await expect.poll(async()=>(await history.boundingBox())!.width).toBeGreaterThan(resized.width);
+ const downloaded=page.waitForEvent('download');await screenshot.click();const download=await downloaded;
+ expect(download.suggestedFilename()).toBe('coinpoker-hand-900000020-bb.png');
+ const file=testInfo.outputPath('hand-history-download.png');await download.saveAs(file);
+ const png=fs.readFileSync(file);expect(png.subarray(0,8)).toEqual(Buffer.from([137,80,78,71,13,10,26,10]));
+ expect(png.readUInt32BE(16)).toBeGreaterThan(300);expect(png.readUInt32BE(20)).toBeGreaterThan(resized.height);expect(png.length).toBeGreaterThan(10000);
+ await expect(history.getByRole('status')).toContainText('Screenshot saved');
+ await history.getByRole('button',{name:'Expand window',exact:true}).click();
+ await expect.poll(async()=>(await history.boundingBox())!.width).toBeGreaterThan(resized.width);
+ await history.getByRole('button',{name:'Restore window size',exact:true}).click();
+ await expect.poll(async()=>(await history.boundingBox())!.width).toBeLessThan(1000);
+ await page.setViewportSize({width:390,height:900});
+ await expect.poll(()=>history.evaluate(node=>node.scrollWidth<=node.clientWidth)).toBe(true);
 });

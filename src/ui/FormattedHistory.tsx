@@ -1,6 +1,7 @@
 import type {ReviewHand,ReviewEvent} from '../review/model.ts';
-import {historyStreets,showdownResults} from '../review/history.ts';
+import {historyStreets} from '../review/history.ts';
 import {Cards,reviewMoney} from './ReviewCards.tsx';
+import {HistoryShowdown} from './HistoryShowdown.tsx';
 
 const title=(street:string)=>street[0]!.toUpperCase()+street.slice(1);
 function ActionPhrase({event,hand,unit}:{event:ReviewEvent;hand:ReviewHand;unit:string}){
@@ -11,7 +12,7 @@ function ActionPhrase({event,hand,unit}:{event:ReviewEvent;hand:ReviewHand;unit:
 }
 
 export function FormattedHistory({hand,unit}:{hand:ReviewHand;unit:string}){
- const streets=historyStreets(hand),results=showdownResults(hand),forced=hand.events.filter(event=>event.forced||event.kind==='splash');
+ const streets=historyStreets(hand),forced=hand.events.filter(event=>event.forced||event.kind==='splash');
  const multipleBoards=Object.keys(hand.events.at(-1)!.frame.boards).length>1;
  const netClass=(amount:bigint|null)=>amount===null||amount===0n?'':amount<0n?'negative':'positive';
  return <>
@@ -24,9 +25,7 @@ export function FormattedHistory({hand,unit}:{hand:ReviewHand;unit:string}){
    {street.events.length?<p className="history-action-line">{street.events.map((event,i)=><span key={i}>{i>0&&<span className="history-action-separator">, </span>}<ActionPhrase event={event} hand={hand} unit={unit}/></span>)}</p>:<p className="history-no-actions">No betting actions.</p>}
    {street.street==='preflop'&&forced.length>0&&<details className="history-forced"><summary>Blinds, antes &amp; Splash</summary><div>{forced.map((event,i)=><p key={i}>{event.kind==='splash'?<>{event.text.startsWith('MEGA')?'Mega Splash':'Splash'} dropped {reviewMoney(event.amount??null,hand.bigBlind,unit)}</>:<ActionPhrase event={event} hand={hand} unit={unit}/>}</p>)}</div></details>}
   </section>)}</div>
-  <section className="history-showdown" aria-label="Hand results"><div className="history-results-head"><h3>{hand.events.some(event=>event.street==='showdown')?'Showdown':'Results'}</h3><span>Net results after contributions</span></div><div className="history-result-players">{results.map(result=><article key={result.player.name} className={'history-player-result '+(result.player.name==='Hero'?'is-hero':'')}>
-   <Cards cards={result.cards}/><div><div className="history-result-name"><strong>{result.player.name}</strong><span>{result.player.position}</span></div><div className="history-combination">{result.folded?'Folded':result.combinations.length?result.combinations.map((combination,i)=><span key={i}>{multipleBoards&&`B${i+1}: `}{combination}</span>):'Cards not revealed'}</div><strong className={'history-outcome '+netClass(result.player.net)}>{result.player.net===null?'Net Won unavailable':result.player.net>0n?'Won '+reviewMoney(result.player.net,hand.bigBlind,unit):result.player.net<0n?'Lost '+reviewMoney(-result.player.net,hand.bigBlind,unit):'Net Won '+reviewMoney(0n,hand.bigBlind,unit)}</strong></div>
-  </article>)}</div></section>
+  <HistoryShowdown hand={hand} unit={unit}/>
   <div className="history-summary-bar"><span>Total pot <strong>{reviewMoney(hand.pot,hand.bigBlind,unit)}</strong></span><span>Rake <strong>{reviewMoney(hand.rake,hand.bigBlind,unit)}</strong></span><span>Splash Fee <strong>{reviewMoney(hand.fee,hand.bigBlind,unit)}</strong></span></div>
  </>;
 }

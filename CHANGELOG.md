@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.5.0 — 2026-10-30
+
+### Added
+
+- Hand History window resizing by dragging its corner or using arrow keys, plus expand/restore controls.
+- Local PNG screenshot download beside Copy and Replay, retaining the selected units and showdown visibility.
+- Collapsible showdown results, hidden initially and revealed with a short transition that respects reduced motion.
+- Local-processing and refresh warnings on the import screen and below the loaded database metadata.
+
+### Changed
+
+- Top 10 rows and hand numbers open Hand History; a dedicated replay icon sits to the left of the history icon.
+
 ## 0.4.1 — 2026-10-30
 
 ### Added

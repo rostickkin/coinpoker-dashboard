@@ -1,0 +1,7 @@
+.local-processing-notice{max-width:680px;margin:18px auto 0;color:#a3b2c6;font-size:12px;line-height:1.7}
+.local-processing-notice p,.import-empty .local-processing-notice p{margin:0;color:inherit}
+.local-processing-privacy{color:#cbd8e8}
+.local-processing-warning{display:flex;align-items:flex-start;gap:12px;max-width:none;margin:-8px 0 20px;padding:12px 14px;border:1px solid #55482a;border-radius:7px;background:#211f18;color:#ddd6c4;text-align:left}
+.local-processing-warning .local-processing-privacy{color:#f1e5c9;font-weight:600}
+.local-processing-icon{flex:none;margin-top:1px}
+@media(max-width:500px){.local-processing-warning{padding:12px;gap:10px}.local-processing-notice{font-size:11px}}
