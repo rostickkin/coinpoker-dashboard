@@ -1,0 +1,161 @@
+.replayer-dialog{
+ --replay-mint:#80e9bc;--replay-line:#304055;--replay-muted:#a7b8cc;
+ width:min(1380px,calc(100vw - 40px));max-width:1380px;background:#0e1623;
+ scrollbar-color:#3b5062 #111b28;scrollbar-width:thin;
+}
+.replayer-dialog .review-window-head{padding:16px 24px;background:#111b28}
+.replayer-dialog .review-window-head h2{font-size:22px;letter-spacing:-.4px}
+.replayer-dialog .review-window-head small{color:var(--replay-muted);font-size:12px}
+.replayer-dialog .review-window-meta{padding:10px 24px;color:#b7c6d7;font-size:12px}
+.replayer-dialog .replay-layout{grid-template-columns:minmax(0,1fr) 280px;border-color:var(--replay-line)}
+.replayer-dialog .replay-table-stage{--replay-card-height:64px;--replay-seat-half:27.5px;--replay-wager-half:24px;height:clamp(580px,62dvh,660px);margin:0;isolation:isolate;background:radial-gradient(ellipse at 50% 45%,#152230,#0b111d 75%)}
+.replayer-dialog .replay-felt{
+ inset:8% 5% 10%;display:block;border-radius:50%;border:15px solid #253645;
+ background:radial-gradient(ellipse at 43% 35%,#197c62 0%,#0b684e 42%,#034632 80%,#043c30 100%);
+ box-shadow:0 9px 13px #0008,0 0 0 2px #111d29,inset 0 5px 15px #001d19b3,inset 0 0 0 3px #0d3c35;
+ pointer-events:none;
+}
+.replayer-dialog .replay-felt::before{content:'';position:absolute;inset:-14px;border:3px solid #455767;border-bottom-color:#2b4c5b;border-radius:50%;box-shadow:inset 0 3px 5px #8091a44d,0 2px 2px #020912}
+.replayer-dialog .replay-felt::after{content:'';position:absolute;inset:12px;border:1px solid #68b9a51f;border-radius:50%}
+.replayer-dialog .replay-center{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:15px;z-index:1;pointer-events:none}
+.replayer-dialog .replay-pot{display:block;padding:4px 21px;border-radius:30px;background:#003b2fd9;font-size:22px;color:#f0faf5;white-space:nowrap;line-height:1.2}
+.replayer-dialog .replay-pot>span{color:#27c3ef;margin-right:4px}
+.replayer-dialog .replay-pot-summary{display:flex;align-items:center;justify-content:center;gap:7px}
+.replayer-dialog .replay-pot-plus{font-size:17px;color:#c9e4d8}
+.replayer-dialog .replay-splash{display:flex;flex-direction:column;align-items:center;gap:1px;padding:3px 10px;border-radius:7px;background:#384b23;color:#ffe49a;line-height:1.2;white-space:nowrap}
+.replayer-dialog .replay-splash b{font-size:10px;font-weight:600}
+.replayer-dialog .replay-splash strong{font-size:15px}
+.replayer-dialog .replay-boards{display:grid;gap:7px}
+.replayer-dialog .replay-boards:empty{display:none}
+.replayer-dialog .replay-board{display:flex;gap:5px;align-items:center}
+.replayer-dialog .replay-board>small{color:#c9e4d8;font-size:10px}
+.replayer-dialog .replay-board .review-cards{gap:5px}
+.replayer-dialog .playing-card,.replayer-dialog .playing-card-back{border-radius:4px;border:0;color:#fff;box-shadow:0 2px 3px #001e1a4d}
+.replayer-dialog .replay-board .playing-card{width:46px;min-width:46px;height:62px;font-size:30px;padding:2px 4px}
+.replayer-dialog .replay-board-spaces{display:flex;gap:5px}
+.replayer-dialog .replay-board-spaces:empty{display:none}
+.replayer-dialog .replay-board-spaces i{display:block;width:46px;height:62px;border:1px solid #8dc4b780;border-radius:4px}
+.replayer-dialog .replay-brand{color:#80c4b2;font-size:clamp(20px,2.2vw,29px);font-weight:650;letter-spacing:-.6px;white-space:nowrap;opacity:.68}
+.replayer-dialog .replay-seat{
+ position:absolute;z-index:3;transform:translate(-50%,-50%);width:140px;min-height:55px;
+ display:flex;flex-direction:column;justify-content:center;gap:2px;padding:6px 8px;
+ background:linear-gradient(#24272c,#111715);border:1px solid #66716c;border-radius:6px 6px 13px 13px;
+ box-shadow:0 3px 5px #00130f66;font-size:14px;
+}
+.replayer-dialog .replay-seat>.review-cards{position:absolute;bottom:calc(100% - 1px);left:50%;transform:translateX(-50%);gap:4px;margin:0;z-index:-1}
+.replayer-dialog .replay-seat .playing-card,.replayer-dialog .replay-seat .playing-card-back{height:var(--replay-card-height);min-width:46px;font-size:32px;padding:2px 5px}
+.replayer-dialog .replay-seat .classic-card-back{position:relative;border:2px solid #e3d6ce;background-color:#8b2037;background-image:repeating-linear-gradient(45deg,transparent 0 5px,#e8a2b04d 5px 6px,transparent 6px 11px),repeating-linear-gradient(-45deg,transparent 0 5px,#e8a2b04d 5px 6px,transparent 6px 11px);box-shadow:0 2px 3px #001e1a4d}
+.replayer-dialog .classic-card-back::after{content:'';position:absolute;inset:3px;border:1px solid #f5c4cb9c;border-radius:2px}
+.replayer-dialog .replay-seat .replay-seat-name{font-size:15px;color:#f1f3f2;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.replayer-dialog .replay-seat .seat-stack{font-size:18px;line-height:1.2;font-weight:700;color:#ffd22e;white-space:nowrap}
+.replayer-dialog .replay-seat.seat-folded{opacity:.6}
+.replayer-dialog .replay-seat.seat-active{outline:2px solid #6aebc4;outline-offset:0;opacity:1}
+.replayer-dialog .replay-seat.seat-hero:not(.seat-folded){border-color:#68e0b6}
+.replayer-dialog .replay-seat .replay-action-badge{position:absolute;bottom:100%;left:8px;padding:2px 6px;color:#092b23;background:#67e6b7;border-radius:4px 4px 0 0;font-size:10px;font-weight:750;line-height:1.2;white-space:nowrap}
+.replayer-dialog .replay-seat .badge-R{background:#ffb12c;color:#2d2007}
+.replayer-dialog .replay-seat .badge-B,.replayer-dialog .replay-seat .badge-BB,.replayer-dialog .replay-seat .badge-SB{background:#148ed2;color:#fff}
+.replayer-dialog .replay-seat .badge-fold{background:#9ea9aa;color:#12251e}
+.replayer-dialog .replay-wager{position:absolute;left:var(--wager-left);top:var(--wager-top);z-index:2;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;pointer-events:none}
+.replayer-dialog .replay-wager>strong{display:block;min-width:58px;padding:2px 9px;border-radius:20px;background:#003b2fe6;color:#f4faf6;text-align:center;font-size:13px;line-height:1.25;white-space:nowrap}
+.replayer-dialog .replay-chip-stack{position:relative;display:block;width:29px;height:24px}
+.replayer-dialog .replay-chip{position:absolute;left:3px;width:23px;height:10px;border:2px dashed #fff0df;border-radius:50%;background:#e82e3b;box-shadow:0 2px 0 #9c1728,0 3px 2px #00140f66}
+.replayer-dialog .dealer-marker{position:absolute;z-index:2;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);width:26px;height:26px;margin:0;border:1px solid #bd292a;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f44339,#b20f14);color:#fff;font-size:17px;font-weight:750;box-shadow:0 3px 4px #00170f66}
+.replayer-dialog .replay-action-log{padding:18px 14px;background:#101a27;border-color:var(--replay-line);max-height:clamp(580px,62dvh,660px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#3b5062 #101a27}
+.replayer-dialog .replay-action-log h3{font-size:18px;margin:0 5px 12px}
+.replayer-dialog .replay-action-log button{font-size:12px;line-height:1.45;color:#d2ddea;border-radius:3px;padding:10px 8px;border-bottom:1px solid #2c3b4b;min-height:37px}
+.replayer-dialog .replay-action-log button:hover{background:#203044}
+.replayer-dialog .replay-action-log button[aria-current=step]{background:#1b3d35;color:#f0fff7;box-shadow:inset 3px 0 #63e8b0}
+.replayer-dialog .replay-action-log .replay-log-section{font-size:10px;color:#a3b8cc;text-align:center;text-transform:uppercase;letter-spacing:.6px;padding:12px 8px}
+.replayer-dialog .replay-controls{padding:14px 22px;gap:16px;border-color:var(--replay-line)}
+.replayer-dialog .replay-transport{gap:8px;flex-wrap:nowrap}
+.replayer-dialog .replay-controls button{min-width:44px;min-height:36px;padding:8px 11px}
+.replayer-dialog .replay-controls svg{width:20px;height:20px;flex:none}
+.replayer-dialog .replay-transport .primary{min-width:95px}
+.replayer-dialog .replay-transport .primary svg{fill:currentColor;stroke-width:1px}
+.replayer-dialog .replay-transport small{font-size:12px;color:#c8d6e6;margin-left:10px;white-space:nowrap}
+.replayer-dialog .replay-view-controls{display:flex;align-items:center;gap:12px;margin-left:auto}
+.replayer-dialog .replay-view-controls .unit button{padding:8px 10px;font-size:12px;min-width:44px}
+.replayer-dialog .replay-view-controls .unit button+button{border-left:0}
+.replayer-dialog .replay-streets{padding:0 22px 14px;gap:8px}
+.replayer-dialog .replay-streets button{background:#192737;border:1px solid #50637a;color:#d8e2ed;border-radius:6px;font-size:12px;padding:9px 4px}
+.replayer-dialog .replay-streets button[aria-pressed=true]{background:#245a46;border-color:#6bcda8;color:#e4fff0}
+.replayer-dialog .replay-progress{width:calc(100% - 44px);margin:0 22px;accent-color:#64e7b7;cursor:pointer}
+.replayer-dialog .replay-current{text-align:left;color:#c8d7e7;font-size:12px;padding:12px 22px 15px;min-height:43px}
+.replayer-dialog .replay-popup-error{margin:0;padding:0 22px 15px;color:#ffc2c7;font-size:12px}
+.replayer-dialog .replay-many{--replay-card-height:45px;--replay-seat-half:24px;height:650px}
+.replayer-dialog .replay-many .replay-seat{width:106px;min-height:48px;padding:5px}
+.replayer-dialog .replay-many .replay-seat-name{font-size:12px}
+.replayer-dialog .replay-many .seat-stack{font-size:14px}
+.replayer-dialog .replay-many .replay-seat .playing-card,.replayer-dialog .replay-many .replay-seat .playing-card-back{min-width:32px;font-size:25px}
+.replayer-dialog .replay-multiple-boards{gap:9px}
+.replayer-dialog .replay-multiple-boards .replay-brand{font-size:21px}
+.history-popup-page .history-dialog{width:calc(100vw - 24px);max-width:1100px;max-height:calc(100dvh - 24px)}
+@media(max-width:1100px){
+ .replayer-dialog .replay-layout{grid-template-columns:minmax(0,1fr) 225px}
+ .replayer-dialog .replay-table-stage{--replay-card-height:54px;--replay-seat-half:25px}
+ .replayer-dialog .replay-many{--replay-card-height:45px;--replay-seat-half:24px}
+ .replayer-dialog .replay-seat{width:118px;min-height:50px}
+ .replayer-dialog .replay-seat .replay-seat-name{font-size:13px}
+ .replayer-dialog .replay-seat .seat-stack{font-size:16px}
+ .replayer-dialog .replay-seat .playing-card,.replayer-dialog .replay-seat .playing-card-back{min-width:40px;font-size:28px}
+ .replayer-dialog .replay-board .playing-card,.replayer-dialog .replay-board-spaces i{width:40px;min-width:40px;height:54px;font-size:27px}
+ .replayer-dialog .replay-pot{font-size:19px}
+ .replayer-dialog .replay-brand{font-size:23px}
+}
+@media(max-width:800px){
+ .replayer-dialog{width:calc(100vw - 20px)}
+ .replayer-dialog .review-window-head{padding:12px 16px}
+ .replayer-dialog .review-window-head h2{font-size:18px}
+ .replayer-dialog .review-window-meta{padding:10px 16px;font-size:10px}
+ .replayer-dialog .replay-layout{grid-template-columns:1fr}
+ .replayer-dialog .replay-table-stage{height:490px}
+ .replayer-dialog .replay-action-log{display:block;max-height:155px;border-left:0;border-top:1px solid var(--replay-line);padding:12px 16px}
+ .replayer-dialog .replay-action-log h3{font-size:14px;margin-bottom:5px}
+ .replayer-dialog .replay-action-log button{width:100%;max-width:100%;padding:7px 8px;min-height:30px;font-size:11px}
+ .replayer-dialog .replay-controls{flex-wrap:wrap;padding:12px 16px;gap:12px}
+ .replayer-dialog .replay-streets{padding:0 16px 12px;gap:5px}
+ .replayer-dialog .replay-progress{width:calc(100% - 32px);margin:0 16px}
+ .replayer-dialog .replay-current{padding:10px 16px 14px}
+ .replayer-dialog .replay-many{height:520px}
+}
+@media(max-width:500px){
+ .replayer-dialog .review-window-meta>span:last-child{font-size:9px}
+ .replayer-dialog .replay-table-stage{--replay-card-height:43px;--replay-seat-half:21px;--replay-wager-half:20px;height:435px}
+ .replayer-dialog .replay-felt{inset:9% 3% 10%;border-width:9px}
+ .replayer-dialog .replay-felt::before{inset:-8px;border-width:2px}
+ .replayer-dialog .replay-felt::after{inset:7px}
+ .replayer-dialog .replay-center{gap:10px;top:45%}
+ .replayer-dialog .replay-pot{font-size:15px;padding:3px 12px}
+ .replayer-dialog .replay-pot-summary{gap:5px}
+ .replayer-dialog .replay-splash{padding:3px 7px}
+ .replayer-dialog .replay-splash b{font-size:8px}
+ .replayer-dialog .replay-splash strong{font-size:12px}
+ .replayer-dialog .replay-brand{font-size:17px;letter-spacing:-.4px}
+ .replayer-dialog .replay-board .playing-card,.replayer-dialog .replay-board-spaces i{width:30px;min-width:30px;height:42px;font-size:23px;padding:2px}
+ .replayer-dialog .replay-board,.replayer-dialog .replay-board .review-cards,.replayer-dialog .replay-board-spaces{gap:3px}
+ .replayer-dialog .replay-seat{width:82px;min-height:42px;padding:4px 2px;gap:1px;border-radius:5px 5px 9px 9px}
+ .replayer-dialog .replay-seat .replay-seat-name{font-size:11px}
+ .replayer-dialog .replay-seat .seat-stack{font-size:12px}
+ .replayer-dialog .replay-seat .playing-card,.replayer-dialog .replay-seat .playing-card-back{min-width:30px;font-size:24px;padding:2px 3px}
+ .replayer-dialog .replay-seat .replay-action-badge{font-size:8px;padding:2px 4px;left:5px}
+ .replayer-dialog .replay-wager{left:var(--wager-left-small);top:var(--wager-top-small);gap:2px}
+ .replayer-dialog .replay-wager>strong{font-size:10px;min-width:46px;padding:2px 5px}
+ .replayer-dialog .replay-chip-stack{width:23px;height:21px}
+ .replayer-dialog .replay-chip{width:18px;height:8px;border-width:1px}
+ .replayer-dialog .dealer-marker{width:21px;height:21px;font-size:13px}
+ .replayer-dialog .replay-transport{gap:5px}
+ .replayer-dialog .replay-controls button{min-width:32px;min-height:34px;padding:6px 7px}
+ .replayer-dialog .replay-controls svg{width:17px;height:17px}
+ .replayer-dialog .replay-transport .primary{min-width:75px}
+ .replayer-dialog .replay-transport small{margin-left:3px;font-size:10px}
+ .replayer-dialog .replay-view-controls{gap:9px}
+ .replayer-dialog .replay-view-controls .unit button{min-width:39px;padding:6px 9px}
+ .replayer-dialog .replay-streets button{font-size:10px;padding:8px 1px}
+ .replayer-dialog .replay-many{--replay-card-height:32px;--replay-seat-half:18px;height:490px}
+ .replayer-dialog .replay-many .replay-seat{width:68px;min-height:36px;padding:3px 1px}
+ .replayer-dialog .replay-many .replay-seat-name{font-size:9px}
+ .replayer-dialog .replay-many .seat-stack{font-size:10px}
+ .replayer-dialog .replay-many .replay-seat .playing-card,.replayer-dialog .replay-many .replay-seat .playing-card-back{min-width:23px;font-size:18px}
+ .replayer-dialog .replay-multiple-boards .replay-brand{font-size:16px}
+}
+.replayer-dialog .replay-wager-bottom{left:50%;top:calc(var(--bottom-seat-top) - var(--replay-seat-half) - var(--replay-card-height) - var(--replay-wager-half) - 10px)}

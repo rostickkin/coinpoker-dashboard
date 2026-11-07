@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Redesigned the replayer with emerald felt, a padded rail, position labels, chip wagers, gold stacks and the CoinPoker Dashboard table wordmark. Folded players' cards disappear, and the dealer marker stays on the felt.
+- Distinct double-chevron hand navigation follows the current Top 10 order; single chevrons step through actions. Replay units can be changed independently using the ₮ / BB control next to Text.
+- Text opens hand history in an independent browser window while preserving the current replay action.
+- Larger replay cards and classic patterned opponent card backs; Hero retains its name beside its position. Wager and dealer placement accounts for rendered card and label sizes.
+- Splash and Mega Splash drops are shown beside the ordinary pot, following playback and the replay's currency/BB selection.
+
 ## 0.5.0 — 2026-10-30
 
 ### Added

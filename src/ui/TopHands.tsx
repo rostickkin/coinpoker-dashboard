@@ -2,11 +2,13 @@ import {useEffect,useRef,useState} from 'react';
 import type {RankedHand,HandRanking} from '../review/selection.ts';
 import type {HandsReply,ReviewHand} from '../review/model.ts';
 import {HandReview} from './HandReview.tsx';
+import {HistoryPopup,openHistoryPopup,type HistoryPopupSession} from './HistoryPopup.tsx';
 import {Cards,ActionMark,reviewMoney,ReviewIcon} from './ReviewCards.tsx';
 import './top-hands.css';
 
 export function TopHands({rows:queryRows,ranking,onRankingChange,worker,unit}:{rows:RankedHand[];ranking:HandRanking;onRankingChange:(ranking:HandRanking)=>void;worker:Worker|null;unit:string}){
- const [rows,setRows]=useState(queryRows),[details,setDetails]=useState<Record<string,ReviewHand>>({}),[error,setError]=useState(''),[retry,setRetry]=useState(0),[opened,setOpened]=useState<{hand:ReviewHand;view:'replay'|'text';opener:HTMLButtonElement}|null>(null);
+ const [rows,setRows]=useState(queryRows),[details,setDetails]=useState<Record<string,ReviewHand>>({}),[error,setError]=useState(''),[retry,setRetry]=useState(0),[opened,setOpened]=useState<{hand:ReviewHand;view:'replay'|'text';opener:HTMLButtonElement;unit:string}|null>(null);
+ const [historyWindows,setHistoryWindows]=useState<HistoryPopupSession[]>([]);
  const sequence=useRef(0),rankingSequence=useRef(0),ids=rows.map(h=>h.id).join(',');
  useEffect(()=>{
   setRows(queryRows);if(!worker)return;
@@ -27,7 +29,11 @@ export function TopHands({rows:queryRows,ranking,onRankingChange,worker,unit}:{r
   worker.addEventListener('message',receive);worker.postMessage({type:'hands',ids:ids.split(','),request});
   return ()=>worker.removeEventListener('message',receive);
  },[worker,ids,retry]);
- const open=(id:string,view:'replay'|'text',opener:HTMLButtonElement)=>{const hand=details[id];if(hand)setOpened({hand,view,opener});};
+ const open=(id:string,view:'replay'|'text',opener:HTMLButtonElement)=>{const hand=details[id];if(hand)setOpened({hand,view,opener,unit});};
+ const openedIndex=rows.findIndex(row=>row.id===opened?.hand.id);
+ const previous=openedIndex>0?details[rows[openedIndex-1]!.id]:undefined,next=openedIndex>=0&&openedIndex<rows.length-1?details[rows[openedIndex+1]!.id]:undefined;
+ const navigate=(hand:ReviewHand,replayUnit:string)=>setOpened(current=>current?{...current,hand,view:'replay',unit:replayUnit}:null);
+ const openText=(hand:ReviewHand,replayUnit:string,opener:HTMLButtonElement)=>{const session=openHistoryPopup(hand,replayUnit,opener);if(!session)return false;setHistoryWindows(current=>[...current,session]);return true;};
  const change=(patch:Partial<HandRanking>)=>onRankingChange({...ranking,...patch});
  const sort=(metric:HandRanking['metric'])=>change({metric,direction:ranking.metric===metric?(ranking.direction==='desc'?'asc':'desc'):(metric==='net'?'asc':'desc')});
  return <section className="panel losing-hands top-hands" aria-label="Top 10 hands">
@@ -50,6 +56,7 @@ export function TopHands({rows:queryRows,ranking,onRankingChange,worker,unit}:{r
    </tr>;
   })}{!rows.length&&<tr><td colSpan={7} className="empty">{ranking.splashOnly?'No Splash hands match the current filters.':'No hands with an available '+(ranking.metric==='net'?'Net Won':'pot')+' in the current filters.'}</td></tr>}</tbody></table></div>
   {!!rows.length&&<div className="review-legend"><span><u>Underline</u> = Hero</span><span><span className="review-splash-badge" aria-hidden="true">S</span> = Splash</span><span>R raise · B bet · C call · X check · F fold · AI all-in</span><span>Action sizes in BB · Hover for player and sizing</span></div>}
-  {opened&&<HandReview hand={opened.hand} initialView={opened.view} unit={unit} opener={opened.opener} onClose={()=>setOpened(null)}/>}
+  {opened&&<HandReview key={opened.hand.id} hand={opened.hand} initialView={opened.view} unit={opened.unit} opener={opened.opener} onClose={()=>setOpened(null)} onPreviousHand={previous?mode=>navigate(previous,mode):undefined} onNextHand={next?mode=>navigate(next,mode):undefined} onOpenText={openText}/>}
+  {historyWindows.map(session=><HistoryPopup key={session.id} session={session} onClose={()=>setHistoryWindows(current=>current.filter(entry=>entry.id!==session.id))}/>)}
  </section>;
 }

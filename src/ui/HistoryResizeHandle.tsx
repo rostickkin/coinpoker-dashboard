@@ -4,18 +4,19 @@ import {ReviewIcon} from './ReviewCards.tsx';
 export function HistoryResizeHandle({dialog,disabled}:{dialog:RefObject<HTMLDialogElement|null>;disabled:boolean}){
  const start=useRef<{x:number;y:number;width:number;height:number}|null>(null);
  const resize=(width:number,height:number)=>{
-  const node=dialog.current!;const rect=node.getBoundingClientRect();
-  const left=Math.max(10,rect.left),top=Math.max(10,rect.top),maxWidth=innerWidth-left-10,maxHeight=innerHeight-top-10;
+  const node=dialog.current!,browser=node.ownerDocument.defaultView!;const rect=node.getBoundingClientRect();
+  const left=Math.max(10,rect.left),top=Math.max(10,rect.top),maxWidth=browser.innerWidth-left-10,maxHeight=browser.innerHeight-top-10;
   Object.assign(node.style,{position:'fixed',margin:'0',left:left+'px',top:top+'px',right:'auto',bottom:'auto',width:Math.max(Math.min(420,maxWidth),Math.min(width,maxWidth))+'px',height:Math.max(Math.min(320,maxHeight),Math.min(height,maxHeight))+'px'});
  };
  useEffect(()=>{
   const fit=()=>{
-   const node=dialog.current;if(!node?.style.left)return;
+   const node=dialog.current;if(!node?.style.left)return;const browser=node.ownerDocument.defaultView!;
    const rect=node.getBoundingClientRect();
-   node.style.left=Math.max(10,Math.min(rect.left,innerWidth-rect.width-10))+'px';
-   node.style.top=Math.max(10,Math.min(rect.top,innerHeight-rect.height-10))+'px';
+   node.style.left=Math.max(10,Math.min(rect.left,browser.innerWidth-rect.width-10))+'px';
+   node.style.top=Math.max(10,Math.min(rect.top,browser.innerHeight-rect.height-10))+'px';
   };
-  window.addEventListener('resize',fit);return ()=>window.removeEventListener('resize',fit);
+  const browser=dialog.current!.ownerDocument.defaultView!;
+  browser.addEventListener('resize',fit);return ()=>browser.removeEventListener('resize',fit);
  },[dialog]);
  return <button className="history-resize-handle" aria-label="Resize hand history" title="Drag to resize · Use arrow keys when focused" disabled={disabled} data-screenshot-exclude onPointerDown={event=>{
   if(event.button!==0)return;
